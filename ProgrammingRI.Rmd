@@ -1,0 +1,797 @@
+---
+title: "Programmin in R Part I"
+author: "Justin Post"
+date: "August 9, 2017"
+output: 
+      ioslides_presentation:
+         css: css/style.css
+transition: faster
+logo: img/logo.png
+---
+
+```{r,echo=FALSE}
+options(dplyr.print_min = 5)
+library(knitr)
+```
+
+## Course Schedule  
+
+**Day's agenda:**   
+
+- 10-11:10 Session  
+- 10-minute break  
+- 11:20-12:30 Session  
+- 12:30-1:45 Lunch  
+- 1:45-2:55 Session  
+- 10-minute break  
+- 3:05-4:15 Session  
+
+
+## What do we want to be able to do?
+
+- Restructure Data/Clean Data  
+
+- Streamline repeated sections of code  
+
+- Improve efficiency of code  
+
+- Write custom functions to simplify code  
+
+
+## Where do we start?  
+
+- Review of concepts  
+- Using dplyr/tidry to manipulate data  
+- For loops
+- If/Then logic  
+- Vectorized Functions  
+- Function Writing  
+- Parallel Computing  
+
+
+
+## Review of Concepts
+**R Studio**
+
+- Great integrated development environment (IDE)  
+
+- Four main 'areas' we'll use  
+    + Scripting and Viewing Area  
+    + Workspace/History  
+    + Plots/Help  
+    + Console
+    
+
+## Review of Concepts
+**R Studio** - Can rearrange panes
+
+```{r, out.width = "800px",echo=FALSE}
+knitr::include_graphics("img/panes.png")
+```
+
+- Global options --> Appearance allows font/background changes
+
+
+## Review of Concepts  
+**Data Frames**
+
+- Best R object for data sets
+- Collection (list) of vectors of the same **length**
+```{r,echo=TRUE}
+x <- c("a", "b", "c", "d", "e", "f")
+y <- c(1, 3, 4, -1, 5, 6)
+z <- 10:15
+data.frame(char = x, data1 = y, data2 = z)
+```
+
+
+## Review of Concepts  
+**Data Frames**
+
+- Consider the built in `iris` data set
+
+```{r}
+iris
+```
+
+
+## Review of Concepts  
+**Data Frames**  
+
+- Can see info about object with `str()` and `attributes()`
+
+```{r}
+str(iris)
+```
+
+
+----
+
+```{r}
+attributes(iris)
+```
+
+
+## Review of Concepts
+**Data Frames**  
+
+- Accessing elements: multiple ways
+
+```{r}
+iris[1:4, 2:4]
+```
+
+
+## Review of Concepts
+**Data Frames**  
+
+- Accessing elements: multiple ways
+
+```{r}
+iris[1, ]
+```
+
+
+## Review of Concepts
+**Data Frames**  
+
+- Accessing elements: multiple ways
+
+```{r}
+iris[ , c("Sepal.Length", "Species")]
+```
+
+
+## Review of Concepts
+**Data Frames**  
+
+- Accessing elements: multiple ways
+
+```{r}
+iris$Sepal.Length
+```
+
+## Review of Concepts  
+**Packages**
+- Many ways to accomplish the same thing in R
+
+> - How to choose?  
+     <ul>
+       <li>Want 'fast' code</li>
+       <li>Want 'easy' syntax</li>  
+       <li>Good default settings on functions</li>  
+     </ul>
+     
+> - Base R has reasonable defaults and syntax but functions are slow  
+
+> - "[TidyVerse](http://tidyverse.org/)" - collection of R packages that share common philosophies and are designed to work together!  
+    <ul>
+      <li>Very efficient code</li>
+      <li>Common syntax</li>  
+    </ul>
+
+
+## Review of Concepts  
+
+- If not installed (downloaded) on computer
+
+```{r,eval=FALSE}
+install.packages("tidyverse")
+```
+
+
+## Review of Concepts  
+
+- Once installed, `library()` or `require()` to load
+```{r}
+library(tidyverse)
+```    
+
+
+## Tidyverse Syntax
+
+- Reason to prefer `dplyr` and packages from the `tidyverse` 
+
+> - Fast!
+
+> - Good defaults
+
+> - All packages have similar syntax!  All work on `tibbles` (data frames)
+
+> - Syntax: function(data.frame, actions, ...)
+
+
+
+## Subsetting/Manipulating Data
+`tbl_df()` - convert data frame to one with better printing
+
+- If data read in with haven, readxl, or readr already in this format!
+- Just 'wrap' data frame
+
+```{r,eval=FALSE}
+#install.packages("Lahman")
+library(Lahman)
+head(Batting, n = 4) #look at just first 4 observations
+```
+
+## Subsetting/Manipulating Data
+`tbl_df()` - convert data frame to one with better printing
+
+```{r,eval=TRUE,echo=FALSE}
+library(Lahman)
+```
+```{r}
+head(Batting, n = 4) #look at just first 4 observations
+```
+
+## Subsetting/Manipulating Data
+
+```{r}
+Batting <- tbl_df(Batting)
+Batting
+```
+
+## Subsetting/Manipulating Data
+`filter()` - subset **rows**
+
+- Use `filter()` to obtain only PIT data
+```{r}
+filter(Batting, teamID == "PIT")
+```
+
+## Subsetting/Manipulating Data
+`filter()` - subset **rows**
+
+- Multiple filters
+```{r}
+filter(Batting, teamID == "PIT" & yearID == 2000)
+```
+
+## Subsetting/Manipulating Data
+`arrange()` - reorder **rows**
+
+```{r}
+#reorder by teamID
+arrange(Batting, teamID)
+```
+
+## Subsetting/Manipulating Data
+`arrange()` - reorder **rows**
+
+```{r}
+#get secondary arrangement as well
+arrange(Batting, teamID, G)
+```
+
+## Subsetting/Manipulating Data
+`arrange()` - reorder **rows**
+
+```{r}
+#descending instead
+arrange(Batting, teamID, desc(G))
+```
+
+
+## Subsetting/Manipulating Data
+**Piping or Chaining**
+
+- Applying multiple functions: nesting hard to parse!
+- Piping or Chaining with `%>%` operator helps
+
+```{r}
+arrange(filter(Batting, teamID == "PIT"), desc(G))
+```
+
+## Subsetting/Manipulating Data
+**Piping or Chaining**
+
+- Applying multiple functions: nesting hard to parse!
+- Piping or Chaining with `%>%` operator helps
+
+```{r}
+Batting %>% filter(teamID == "PIT") %>% arrange(desc(G))
+```
+
+## Subsetting/Manipulating Data
+**Piping or Chaining**
+
+- Applying multiple functions: nesting hard to parse!
+- Piping or Chaining with %>% operator helps
+- If `dplyr` or `magrittr` package loaded, can use anywhere
+```{r}
+a<-runif(n = 10)
+a
+```
+
+## Subsetting/Manipulating Data
+**Piping or Chaining**
+
+```{r}
+#silly example
+a %>% quantile()
+a %>% quantile() %>% range()
+```
+
+
+## Subsetting/Manipulating Data
+`select()` - subset **columns**
+
+- Often only want select variables (saw `$` and `[ , ]`)
+- `select()` function has same syntax as other `dplyr` functions!
+
+```{r}
+#Choose a single column by name
+Batting %>% select(X2B)
+```
+
+## Subsetting/Manipulating Data
+`select()` - subset **columns**
+
+- Many ways to select variables 
+
+```{r}
+#all columns between
+Batting %>% select(X2B:HR)
+```
+
+## Subsetting/Manipulating Data
+`select()` - subset **columns**
+
+- Many ways to select variables 
+
+```{r}
+#all columns containing
+Batting %>% select(contains("X"))
+```
+
+
+## Subsetting/Manipulating Data
+`select()` - subset **columns**
+
+- Many ways to select variables 
+
+```{r}
+#all columns starting with
+Batting %>% select(starts_with("X"))
+```
+
+
+## Subsetting/Manipulating Data
+`select()` - subset **columns**
+
+- Many ways to select variables 
+
+```{r}
+#all columns ending with
+Batting %>% select(ends_with("ID"))
+```
+
+## Subsetting/Manipulating Data
+`mutate()` - add newly created **column**  
+
+`transmute()` - create new variable
+
+```{r}
+##Create an Extra Base Hits variable
+Batting %>% mutate(ExtraBaseHits = X2B + X3B + HR)
+```
+
+## Subsetting/Manipulating Data
+`mutate()` - add newly created **column**  
+
+`transmute()` - create new variable
+
+```{r}
+#can't see it!
+Batting %>% mutate(ExtraBaseHits = X2B + X3B + HR) %>% select(ExtraBaseHits)
+```
+
+
+## Subsetting/Manipulating Data
+`mutate()` - add newly created **column**  
+
+`transmute()` - create new variable
+
+```{r}
+#transmute will keep the new variable only
+Batting %>% transmute(ExtraBaseHits = X2B + X3B + HR)
+```
+
+
+## Subsetting/Manipulating Data
+`group_by()` - group **rows** by a variable  
+
+`summarise()` - apply basic function to data
+
+- Summarization - find avg \# of doubles (X2B) 
+- Remove `NA`'s
+- `NA` = Not Available (R's missing data indicator)
+```{r}
+Batting %>% summarise(AvgX2B = mean(X2B, na.rm = TRUE))
+```
+
+## Subsetting/Manipulating Data
+`group_by()` - group **rows** by a variable  
+
+`summarise()` - apply basic function to data
+
+- Summarization - find avg \# of doubles (X2B) *by team*
+```{r}
+Batting %>% group_by(teamID) %>% summarise(AvgX2B = mean(X2B, na.rm = TRUE))
+```
+
+## Subsetting/Manipulating Data
+`left_join()`, `right_join()`, `inner_join()`, `full_join()` - combine multiple DFs
+
+(Cite: http://rpubs.com/justmarkham/dplyr-tutorial-part-2)
+
+```{r}
+# create two simple data frames
+a <- data_frame(color = c("green", "yellow", "red"), num = 1:3)
+b <- data_frame(color = c("green", "yellow", "pink"), size = c("S", "M", "L"))
+```
+
+<div style="float: left; width: 45%;">
+```{r}
+a
+```
+</div>
+<div style="float: right; width: 45%;">
+```{r}
+b
+```
+</div>
+
+## Subsetting/Manipulating Data
+`left_join()`, `right_join()`, `inner_join()`, `full_join()` - combine multiple DFs
+
+- Only include observations found in both "a" and "b" (automatically joins on variables that appear in both tables)
+
+```{r}
+inner_join(a, b)
+```
+
+## Subsetting/Manipulating Data
+`left_join()`, `right_join()`, `inner_join()`, `full_join()` - combine multiple DFs
+
+- include observations found in either "a" or "b"
+```{r}
+full_join(a, b)
+```
+
+## Subsetting/Manipulating Data
+`left_join()`, `right_join()`, `inner_join()`, `full_join()` - combine multiple DFs
+
+- include all observations found in "a"
+```{r}
+left_join(a, b)
+```
+
+## Subsetting/Manipulating Data
+`left_join()`, `right_join()`, `inner_join()`, `full_join()` - combine multiple DFs
+
+- include all observations found in "b"
+```{r}
+right_join(a, b)
+```
+
+## Subsetting/Manipulating Data
+`left_join()`, `right_join()`, `inner_join()`, `full_join()` - combine multiple DFs
+
+- `right_join(a, b)` is identical to `left_join(b, a)` except for column ordering
+```{r}
+left_join(b, a)
+```
+
+## Subsetting/Manipulating Data
+`left_join()`, `right_join()`, `inner_join()`, `full_join()` - combine multiple DFs
+
+- filter "a" to only show observations that match "b"
+```{r}
+semi_join(a, b)
+```
+
+## Subsetting/Manipulating Data
+`left_join()`, `right_join()`, `inner_join()`, `full_join()` - combine multiple DFs
+
+- filter "a" to only show observations that don't match "b"
+```{r}
+anti_join(a, b)
+```
+
+## Subsetting/Manipulating Data
+`left_join()`, `right_join()`, `inner_join()`, `full_join()` - combine multiple DFs
+
+- sometimes matching variables don't have identical names
+
+<div style="float: left; width: 50%;">
+```{r}
+b <- b %>% rename(col = color)
+a
+```
+</div>
+<div style="float: right; width: 45%;">
+```{r}
+b
+```
+
+## Subsetting/Manipulating Data
+`left_join()`, `right_join()`, `inner_join()`, `full_join()` - combine multiple DFs
+
+- specify that the join should occur by matching "color" in "a" with "col" in "b"
+```{r}
+inner_join(a, b, by = c("color" = "col"))
+```
+
+## Subsetting/Manipulating Data
+**Overview of `dplyr` package** [cheatsheet](https://www.rstudio.com/wp-content/uploads/2015/02/data-wrangling-cheatsheet.pdf)
+
+- Basic commands 
+    + `tbl_df()` - convert data frame to one with better printing
+    + `filter()` - subset **rows**
+    + `arrange()` - reorder **rows**
+    + `select()` - subset **columns**
+    + `mutate()` - add newly created **column**
+    + `transmute()` - create new variable
+    + `group_by()` - group **rows** by a variable  
+    + `summarise()` - apply basic function to data
+    + `left_join()`, `right_join()`, `inner_join()`, `full_join()` - commands to combine multiple dfs
+
+   
+  
+## Manipulating Data
+**`tidyr` package**
+
+Easily allows for two very important actions
+
+> - **gather()** - takes multiple columns, and gathers them into key-value pairs  
+    <ul>
+        <li> Make wide data longer</li>
+        <li> Most important as analysis methods often prefer this form</li>
+    </ul>
+         
+> - **spread()** - takes two columns (key & value) and spreads in to multiple columns  
+    <ul> <li> Make "long" data wider </li></ul>
+
+<!--tidyr also provides separate() and extract() functions which makes it easier to pull apart a column that represents multiple variables. The complement to separate() is unite().
+-->
+
+## Manipulating Data
+**`tidyr` package**
+
+- Data in 'Wide' form
+
+```{r,eval=FALSE}
+tempsData <- read_delim(file = "https://raw.githubusercontent.com/jbpost2/Programming-in-R/
+                        master/datasets/cityTemps.txt", delim = " ")
+tempsData
+```
+```{r,echo=FALSE}
+tempsData <- read_delim(file = "https://raw.githubusercontent.com/jbpost2/Programming-in-R/master/datasets/cityTemps.txt", delim = " ")
+tempsData
+```
+
+
+## Manipulating Data
+**tidyr package**
+
+- Switch to 'Long' form with `gather()` (see help)
+- Can provide columns to `gather()` in many ways!
+```{r}
+gather(tempsData, key = day, value = temp, 2:8)
+```
+
+## Manipulating Data
+**tidyr package**
+
+- Switch to 'Long' form with `gather()` (see help)
+- Can provide columns to `gather()` in many ways!
+```{r}
+newTempsData<-gather(tempsData, key = day, value = temp, sun,
+mon, tue, wed, thr, fri, sat)
+```
+```{r,echo=FALSE}
+newTempsData
+```
+
+## Manipulating Data
+**tidyr package**
+
+- Switch to 'Wide' form with `spread()` (see help)  
+
+```{r}
+spread(newTempsData, key = day, value = temp)
+```
+
+## Recap!
+
+- Tidyverse useful 
+
+- `dplyr` to manipulate data  
+
+- `tidyr` to expand, condense data 
+
+
+## Activity 
+- [**Manipulating Data Activity** instructions](http://www4.stat.ncsu.edu/~post/DataScienceR/Manipulate2Activity.html) available on web  
+
+- Work in small groups  
+
+- Ask questions!  TAs and I will float about the room  
+
+- Feel free to ask questions about anything you didn't understand as well!   
+
+
+## What do we want to be able to do?
+
+- Restructure Data/Clean Data  
+
+- **Streamline repeated sections of code**  
+
+- Improve efficiency of code  
+
+- Write custom functions to simplify code  
+
+
+## For Loops
+
+- Idea: 
+    + Run code repeatedly 
+    + Often change something as well
+    
+- Syntax
+```{r,eval=FALSE}
+for(index in values){
+  code to be run
+}
+```
+
+## For Loops  
+
+- index defines 'counter' or variable that varies
+
+```{r}
+for (i in 1:10){
+  print(i)
+}
+```
+
+
+## For Loops  
+
+- 'values' define which values index takes on
+
+```{r}
+for (i in 1:10){
+  print(i)
+}
+```
+
+## For Loops  
+
+- 'values' define which values index takes on
+
+```{r}
+for (value in c("cat","hat","worm")){
+  print(value)
+}
+```
+
+
+## For Loops  
+
+- Code in loop can change based on index  
+- Create small data set
+```{r}
+set.seed(10)
+data<-round(runif(5),2)
+data
+```
+
+## For Loops  
+
+- Code in loop can change based on index  
+
+```{r}
+words<-c("first", "second", "third", "fourth", "fifth")
+```
+
+- Loop through and print out the phrase 
+
+"The (\#ed) data point is (\# from data vector)."
+
+```{r}
+paste0("The ", words[1], " data point is ", data[1], ".")
+```
+
+
+## For Loops  
+
+- Code in loop can change based on index  
+
+```{r}
+for (i in 1:5){
+  print(paste0("The ", words[i], " data point is ",
+              data[i], "."))
+}
+```
+
+
+## For Loops
+
+- Example: Find `summary()` for each column of a data set  
+- Could loop through numeric columns  
+- Find `summary()` for each  
+<br>
+- Consider smaller batting data set
+
+```{r}
+Batting2010 <- Batting %>% filter(yearID == 2010) %>% 
+  select(playerID, teamID, G, AB, R, H, X2B, X3B, HR)
+```
+
+
+## For Loops
+
+- Want to find `summary()` for each column of a data set  
+
+```{r}
+summary(Batting2010[ , 3])
+```
+
+## For Loops
+
+- Loop through numeric columns
+
+```{r}
+stats <- matrix(nrow = 6, ncol = 7)
+for (i in 1:(dim(Batting2010)[2] - 2)){
+  stats[ , i]<-summary(Batting2010[ , i + 2])
+}
+stats
+```
+
+
+## For Loops
+
+- Add column names
+
+```{r}
+colnames(stats) <- names(Batting2010)[3:9]
+stats
+```
+
+
+## Vectorized Function  
+
+- Much better way to do this type of thing
+
+- Loops are slow, didn't keep attributes here
+
+- Covered later today!
+
+
+## Recap!
+
+- **For loops** reduce redundant code
+
+- Syntax
+```{r,eval=FALSE}
+for (index in values){
+  code to execute
+}
+```
+
+- Values can be a sequence of numbers or character values 
+
+- Not ideal in R
+
+
+## Activity 
+- [**For Loops Activity** instructions](http://www4.stat.ncsu.edu/~post/DataScienceR/ForLoopsActivity.html) available on web  
+
+- Work in small groups  
+
+- Ask questions!  TAs and I will float about the room  
+
+- Feel free to ask questions about anything you didn't understand as well!   
