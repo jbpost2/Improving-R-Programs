@@ -1,5 +1,5 @@
 ---
-title: "Programmin in R Part II"
+title: "Programming in R Part II"
 author: "Justin Post"
 date: "August 9, 2017"
 output: 
@@ -458,7 +458,7 @@ microbenchmark(colMeans(air2, na.rm = TRUE))
 
 
 ## Activity 
-- [**Vectorized Functions Activity** instructions](http://www4.stat.ncsu.edu/~post/DataScienceR/VectorizedActivity.html) available on web  
+- [**Vectorized Functions Activity** instructions](http://www4.stat.ncsu.edu/~post/ProgrammingR/VectorizedActivity.html) available on web  
 
 - Work in small groups  
 
@@ -770,7 +770,7 @@ nameOfFunction <- function(input1, input2, ...) {
 
 
 ## Activity 
-- [**Function Writing Activity** instructions](http://www4.stat.ncsu.edu/~post/DataScienceR/FunctionActivity.html) available on web  
+- [**Function Writing Activity** instructions](http://www4.stat.ncsu.edu/~post/ProgrammingR/FunctionActivity.html) available on web  
 
 - Work in small groups  
 

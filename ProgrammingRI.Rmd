@@ -1,5 +1,5 @@
 ---
-title: "Programmin in R Part I"
+title: "Programming in R Part I"
 author: "Justin Post"
 date: "August 9, 2017"
 output: 
@@ -613,7 +613,7 @@ spread(newTempsData, key = day, value = temp)
 
 
 ## Activity 
-- [**Manipulating Data Activity** instructions](http://www4.stat.ncsu.edu/~post/DataScienceR/Manipulate2Activity.html) available on web  
+- [**Manipulating Data Activity** instructions](http://www4.stat.ncsu.edu/~post/ProgrammingR/Manipulate2Activity.html) available on web  
 
 - Work in small groups  
 
@@ -788,7 +788,7 @@ for (index in values){
 
 
 ## Activity 
-- [**For Loops Activity** instructions](http://www4.stat.ncsu.edu/~post/DataScienceR/ForLoopsActivity.html) available on web  
+- [**For Loops Activity** instructions](http://www4.stat.ncsu.edu/~post/ProgrammingR/ForLoopsActivity.html) available on web  
 
 - Work in small groups  
 
