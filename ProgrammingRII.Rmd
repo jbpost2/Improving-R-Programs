@@ -31,7 +31,7 @@ library(Lahman)
 
 For loops inefficient in R  
 
-> + R interpretted language  
+> + R interpreted language  
 
 > + Must figure out how to evaluate code at each iteration of loop  
 
@@ -228,25 +228,27 @@ airquality
 
 Want to code a wind category variable    
 
-> + high wind days (15mph$\\leq$wind)  
-> + windy days     (10mph$\\leq$<wind<15mph)  
-> + lightwind days (6mph$\\leq$<wind<10mph)  
-> + calm days      (wind$\\leq$6mph)
+> + high wind days (15mph $\leq$ wind)  
+> + windy days     (10mph $\leq$ wind < 15mph)  
+> + lightwind days (6mph $\leq$ wind < 10mph)  
+> + calm days      (wind $\leq$ 6mph)
 
 
 ## Efficient Code
 
 Want to code a wind category variable    
 
- + high wind days (15mph$\\leq$wind)  
- + windy days     (10mph$\\leq$<wind<15mph)  
- + lightwind days (6mph$\\leq$<wind<10mph)  
- + calm days      (wind$\\leq$6mph)
+ + high wind days (15mph $\leq$ wind)  
+ + windy days     (10mph $\leq$ wind < 15mph)  
+ + lightwind days (6mph $\leq$ wind < 10mph)  
+ + calm days      (wind $\leq$ 6mph)  
+ 
+Initial plan    
 
-
-Initial plan
-    + loop through each observation
-    + use if then else to determine wind status
+  + loop through each observation    
+  
+  + use if then else to determine wind status    
+  
     
 
 ## Efficient Code
@@ -522,7 +524,7 @@ mean
 - Can look at code for functions
 
 ```{r}
-base:::mean.default
+mean.default
 ```
 
 ## Writing Functions
@@ -803,7 +805,7 @@ Idea:
 > + Run computation simultaneously on 
       <ul>
         <li> different processor cores</li>  
-        <li> across many connected computers (i.e on a cluster)</li>
+        <li> across many connected computers (i.e. on a cluster)</li>
         <li> or a few other ways</li>
       </ul>  
 > + Combine results
@@ -855,7 +857,7 @@ iris
 
 ```{r,eval=FALSE}
 library(fpc)       #install if needed
-iris$Species<-NULL #remove category labels (truely 3 groups)
+iris$Species<-NULL #remove category labels (truly 3 groups)
 clus<-kmeans(iris,centers=3,nstart=100)
 plotcluster(iris, clus$cluster)
 ```
