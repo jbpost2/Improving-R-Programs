@@ -61,7 +61,7 @@ df <- data.frame(gamma = rgamma(n = 20, shape = 4, scale = 2), uniform = runif(n
 #1. Write your own absolute value function called myAbsoluteValue. There are two options for the input
     #If x is positive or zero, return x.
     #If x is negative, return -x.
-#Check your function works by pluggin in a few values.
+#Check your function works by plugging in a few values.
 
 #2. Challenge: Create your own summary function called mySummary that takes in a single vector and is capable of outputting the min, max, median, mean, sd, and var of the vector. By default have the function produce the min, median, and max only, but allow the user to determine which of the statistics is returned. Return the appropriate object with names for each item returned.
 
