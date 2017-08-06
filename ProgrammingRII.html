@@ -214,10 +214,10 @@
 )</pre>
 
 <pre >## Unit: milliseconds
-##                                             expr      min       lq
-##  colMeans(select(Batting, G:GIDP), na.rm = TRUE) 10.68136 11.22198
-##      mean   median       uq      max neval
-##  14.66154 11.92899 15.60498 65.50574   100</pre>
+##                                             expr     min       lq   mean
+##  colMeans(select(Batting, G:GIDP), na.rm = TRUE) 10.5278 11.00802 13.866
+##    median       uq      max neval
+##  11.46476 15.06337 67.50874   100</pre>
 
 </article></slide><slide class=''><hgroup><h2>Efficient Code</h2></hgroup><article  id="efficient-code-6">
 
@@ -232,10 +232,10 @@
 )</pre>
 
 <pre >## Unit: milliseconds
-##                                                               expr
-##  for (i in 1:17) {     mean(Batting[, i + 5][[1]], na.rm = TRUE) }
-##       min       lq     mean   median       uq      max neval
-##  2.719882 3.083258 3.716769 3.381892 4.170026 7.267494   100</pre>
+##                                                               expr     min
+##  for (i in 1:17) {     mean(Batting[, i + 5][[1]], na.rm = TRUE) } 2.67567
+##        lq     mean   median       uq      max neval
+##  2.909959 3.303627 3.092535 3.423539 6.953662   100</pre>
 
 </article></slide><slide class=''><hgroup><h2>Efficient Code</h2></hgroup><article  id="efficient-code-7">
 
@@ -616,15 +616,15 @@ airquality %&gt;% group_by(status) %&gt;%
 ##                                                                                                                                                                                                                                                                                                                                                                                                expr
 ##  for (i in 1:(dim(airquality)[1])) {     if (airquality$Wind[i] &gt;= 15) {         status[i] &lt;- &quot;HighWind&quot;     }     else if (airquality$Wind[i] &gt;= 10) {         status[i] &lt;- &quot;Windy&quot;     }     else if (airquality$Wind[i] &gt;= 6) {         status[i] &lt;- &quot;LightWind&quot;     }     else if (airquality$Wind[i] &gt;= 0) {         status[i] &lt;- &quot;Calm&quot;     }     else {         status[i] &lt;- &quot;Error&quot;     } }
 ##       min       lq     mean   median       uq      max neval
-##  29267.35 31937.69 35508.01 33162.43 36876.51 60330.46   100</pre>
+##  29039.58 31981.91 34859.96 33797.79 36785.91 61407.75   100</pre>
 
 <pre class = 'prettyprint lang-r'>vectorTime</pre>
 
 <pre >## Unit: microseconds
 ##                                                                                                                                       expr
 ##  ifelse(airquality$Wind &gt;= 15, &quot;HighWind&quot;, ifelse(airquality$Wind &gt;=      10, &quot;Windy&quot;, ifelse(airquality$Wind &gt;= 6, &quot;LightWind&quot;, &quot;Calm&quot;)))
-##      min       lq    mean  median       uq     max neval
-##  277.121 286.0025 307.683 293.898 306.3325 709.776   100</pre>
+##      min       lq     mean   median       uq      max neval
+##  287.385 400.0875 691.6916 555.6225 670.6945 6716.412   100</pre>
 
 </article></slide><slide class=''><hgroup><h2>Efficient Code</h2></hgroup><article  id="efficient-code-24">
 
@@ -835,15 +835,15 @@ microbenchmark(apply(X = air2, MARGIN = 2, FUN = mean, na.rm = TRUE))</pre>
 
 <pre >## Unit: microseconds
 ##                                                   expr     min       lq
-##  apply(X = air2, MARGIN = 2, FUN = mean, na.rm = TRUE) 135.403 138.3635
-##     mean  median       uq     max neval
-##  160.312 140.337 148.8245 609.113   100</pre>
+##  apply(X = air2, MARGIN = 2, FUN = mean, na.rm = TRUE) 135.008 138.9555
+##      mean   median       uq      max neval
+##  193.8308 142.7055 161.4565 1371.389   100</pre>
 
 <pre class = 'prettyprint lang-r'>microbenchmark(colMeans(air2, na.rm = TRUE))</pre>
 
 <pre >## Unit: microseconds
-##                          expr    min    lq     mean median     uq     max
-##  colMeans(air2, na.rm = TRUE) 57.635 58.82 68.79524 60.201 66.912 207.643
+##                          expr    min     lq     mean median    uq     max
+##  colMeans(air2, na.rm = TRUE) 58.425 60.004 64.19629 60.794 62.57 187.511
 ##  neval
 ##    100</pre>
 
@@ -919,7 +919,7 @@ microbenchmark(apply(X = air2, MARGIN = 2, FUN = mean, na.rm = TRUE))</pre>
 ##     else stopifnot(is.atomic(y))
 ##     .Call(C_cov, x, y, na.method, FALSE)
 ## }
-## &lt;bytecode: 0x0000000018a96d48&gt;
+## &lt;bytecode: 0x0000000018aa75c0&gt;
 ## &lt;environment: namespace:stats&gt;</pre>
 
 </article></slide><slide class=''><hgroup><h2>Writing Functions</h2></hgroup><article  id="writing-functions-2">
@@ -951,7 +951,7 @@ microbenchmark(apply(X = air2, MARGIN = 2, FUN = mean, na.rm = TRUE))</pre>
 ##     else names(z) &lt;- dimnames(x)[[dims + 1L]]
 ##     z
 ## }
-## &lt;bytecode: 0x0000000018921498&gt;
+## &lt;bytecode: 0x000000001891c080&gt;
 ## &lt;environment: namespace:base&gt;</pre>
 
 </article></slide><slide class=''><hgroup><h2>Writing Functions</h2></hgroup><article  id="writing-functions-3">
@@ -964,7 +964,7 @@ microbenchmark(apply(X = air2, MARGIN = 2, FUN = mean, na.rm = TRUE))</pre>
 
 <pre >## function (x, ...) 
 ## UseMethod(&quot;mean&quot;)
-## &lt;bytecode: 0x000000001850e218&gt;
+## &lt;bytecode: 0x0000000018519a90&gt;
 ## &lt;environment: namespace:base&gt;</pre>
 
 </article></slide><slide class=''><hgroup><h2>Writing Functions</h2></hgroup><article  id="writing-functions-4">
@@ -999,7 +999,7 @@ microbenchmark(apply(X = air2, MARGIN = 2, FUN = mean, na.rm = TRUE))</pre>
 ##     }
 ##     .Internal(mean(x))
 ## }
-## &lt;bytecode: 0x000000001850e790&gt;
+## &lt;bytecode: 0x000000001851a040&gt;
 ## &lt;environment: namespace:base&gt;</pre>
 
 </article></slide><slide class=''><hgroup><h2>Writing Functions</h2></hgroup><article  id="writing-functions-5">
@@ -1040,13 +1040,13 @@ microbenchmark(apply(X = air2, MARGIN = 2, FUN = mean, na.rm = TRUE))</pre>
 
 data</pre>
 
-<pre >## [1] 0.7699820 0.5452509 0.1609523 0.2723965 0.2127927</pre>
+<pre >## [1] 0.40420982 0.16632350 0.82994597 0.27298712 0.02134729</pre>
 
 <pre class = 'prettyprint lang-r'>result &lt;- standardize(data)
 
 result</pre>
 
-<pre >## [1]  1.4642474  0.5930383 -0.8967623 -0.4647295 -0.6957939</pre>
+<pre >## [1]  0.2115897 -0.5598517  1.5922093 -0.2139523 -1.0299950</pre>
 
 </article></slide><slide class=''><hgroup><h2>Writing Functions</h2></hgroup><article  id="writing-functions-8">
 
@@ -1085,12 +1085,12 @@ result</pre>
 <pre class = 'prettyprint lang-r'>result &lt;- standardize(data, center = TRUE, scale = TRUE)
 result</pre>
 
-<pre >## [1]  1.4642474  0.5930383 -0.8967623 -0.4647295 -0.6957939</pre>
+<pre >## [1]  0.2115897 -0.5598517  1.5922093 -0.2139523 -1.0299950</pre>
 
 <pre class = 'prettyprint lang-r'>result &lt;- standardize(data, center = FALSE, scale = TRUE)
 result</pre>
 
-<pre >## [1] 2.9849693 2.1137602 0.6239596 1.0559924 0.8249281</pre>
+<pre >## [1] 1.31081187 0.53937041 2.69143144 0.88526981 0.06922711</pre>
 
 </article></slide><slide class=''><hgroup><h2>Writing Functions</h2></hgroup><article  id="writing-functions-11">
 
@@ -1114,13 +1114,13 @@ result</pre>
 <pre class = 'prettyprint lang-r'>result &lt;- standardize(data, center = TRUE, scale = TRUE)
 result</pre>
 
-<pre >## [1]  1.4642474  0.5930383 -0.8967623 -0.4647295 -0.6957939</pre>
+<pre >## [1]  0.2115897 -0.5598517  1.5922093 -0.2139523 -1.0299950</pre>
 
 <pre class = 'prettyprint lang-r'>#same call
 result &lt;- standardize(data)
 result</pre>
 
-<pre >## [1]  1.4642474  0.5930383 -0.8967623 -0.4647295 -0.6957939</pre>
+<pre >## [1]  0.2115897 -0.5598517  1.5922093 -0.2139523 -1.0299950</pre>
 
 </article></slide><slide class=''><hgroup><h2>Writing Functions</h2></hgroup><article  id="writing-functions-13">
 
@@ -1157,17 +1157,17 @@ result</pre>
 result</pre>
 
 <pre >## [[1]]
-## [1]  1.4642474  0.5930383 -0.8967623 -0.4647295 -0.6957939
+## [1]  0.2115897 -0.5598517  1.5922093 -0.2139523 -1.0299950
 ## 
 ## [[2]]
-## [1] 0.3922749
+## [1] 0.3389627
 ## 
 ## [[3]]
-## [1] 0.2579531</pre>
+## [1] 0.308366</pre>
 
 <pre class = 'prettyprint lang-r'>result[[2]]</pre>
 
-<pre >## [1] 0.3922749</pre>
+<pre >## [1] 0.3389627</pre>
 
 </article></slide><slide class=''><hgroup><h2>Writing Functions</h2></hgroup><article  id="writing-functions-15">
 
@@ -1196,17 +1196,17 @@ result</pre>
 result</pre>
 
 <pre >## $result
-## [1]  1.4642474  0.5930383 -0.8967623 -0.4647295 -0.6957939
+## [1]  0.2115897 -0.5598517  1.5922093 -0.2139523 -1.0299950
 ## 
 ## $mean
-## [1] 0.3922749
+## [1] 0.3389627
 ## 
 ## $sd
-## [1] 0.2579531</pre>
+## [1] 0.308366</pre>
 
 <pre class = 'prettyprint lang-r'>result$sd</pre>
 
-<pre >## [1] 0.2579531</pre>
+<pre >## [1] 0.308366</pre>
 
 </article></slide><slide class=''><hgroup><h2>Writing Functions</h2></hgroup><article  id="writing-functions-17">
 
@@ -1306,7 +1306,7 @@ result</pre>
 ##     }
 ##     else ans
 ## }
-## &lt;bytecode: 0x0000000013b3b388&gt;
+## &lt;bytecode: 0x0000000013b3b138&gt;
 ## &lt;environment: namespace:base&gt;</pre>
 
 </article></slide><slide class=''><hgroup><h2>Writing Functions</h2></hgroup><article  id="writing-functions-18">
@@ -1533,8 +1533,8 @@ or a few other ways
 </ul>
 
 <pre class = 'prettyprint lang-r'>library(fpc)       #install if needed
-iris$Species&lt;-NULL #remove category labels (truly 3 groups)
-clus&lt;-kmeans(iris,centers=3,nstart=100)
+iris$Species &lt;- NULL #remove category labels (truly 3 groups)
+clus &lt;- kmeans(iris, centers = 3, nstart = 100)
 plotcluster(iris, clus$cluster)</pre>
 
 </article></slide><slide class=''><hgroup><h2>Parallel Computing</h2></hgroup><article  id="parallel-computing-5">
@@ -1719,7 +1719,7 @@ Only code change: use <code>parLapply()</code> insead of <code>lapply()</code>
 <pre class = 'prettyprint lang-r'>library(parallel)
 cores &lt;- detectCores()
 cluster &lt;- makeCluster(cores - 1)
-results &lt;- parLapply(cluster, X = c(2500, 2500, 2500),
+results &lt;- parLapply(cluster, X = c(250, 250, 250),
                      fun = parallel.function, data = iris)
 temp.vector &lt;- sapply(results, function(result) {result$tot.withinss})
 result &lt;- results[[which.min(temp.vector)]]
@@ -1727,23 +1727,23 @@ print(result)</pre>
 
 </article></slide><slide class=''><hgroup><h2>Parallel Computing</h2></hgroup><article  id="parallel-computing-15">
 
-<pre >## K-means clustering with 3 clusters of sizes 50, 38, 62
+<pre >## K-means clustering with 3 clusters of sizes 38, 62, 50
 ## 
 ## Cluster means:
 ##   Sepal.Length Sepal.Width Petal.Length Petal.Width
-## 1     5.006000    3.428000     1.462000    0.246000
-## 2     6.850000    3.073684     5.742105    2.071053
-## 3     5.901613    2.748387     4.393548    1.433871
+## 1     6.850000    3.073684     5.742105    2.071053
+## 2     5.901613    2.748387     4.393548    1.433871
+## 3     5.006000    3.428000     1.462000    0.246000
 ## 
 ## Clustering vector:
-##   [1] 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
-##  [36] 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 3 3 2 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3
-##  [71] 3 3 3 3 3 3 3 2 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 2 3 2 2 2
-## [106] 2 3 2 2 2 2 2 2 3 3 2 2 2 2 3 2 3 2 3 2 2 3 3 2 2 2 2 2 3 2 2 2 2 3 2
-## [141] 2 2 3 2 2 2 3 2 2 3
+##   [1] 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3
+##  [36] 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 2 2 1 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2
+##  [71] 2 2 2 2 2 2 2 1 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 1 2 1 1 1
+## [106] 1 2 1 1 1 1 1 1 2 2 1 1 1 1 2 1 2 1 2 1 1 2 2 1 1 1 1 1 2 1 1 1 1 2 1
+## [141] 1 1 2 1 1 1 2 1 1 2
 ## 
 ## Within cluster sum of squares by cluster:
-## [1] 15.15100 23.87947 39.82097
+## [1] 23.87947 39.82097 15.15100
 ##  (between_SS / total_SS =  88.4 %)
 ## 
 ## Available components:
@@ -1780,15 +1780,15 @@ straightTime &lt;- microbenchmark({
 ##                                                                                                                                                                                                                                                                                                                                              expr
 ##  {     library(parallel)     cores &lt;- detectCores()     cluster &lt;- makeCluster(cores - 1)     results &lt;- parLapply(cluster, X = c(25000, 25000, 25000),          fun = parallel.function, data = iris)     temp.vector &lt;- sapply(results, function(result) {         result$tot.withinss     })     result &lt;- results[[which.min(temp.vector)]] }
 ##       min       lq     mean   median       uq      max neval
-##  2.576571 2.849583 3.180075 3.112238 3.293277 4.074186    10</pre>
+##  2.479656 2.499244 2.513047 2.511559 2.529938 2.544348    10</pre>
 
 <pre class = 'prettyprint lang-r'>straightTime</pre>
 
 <pre >## Unit: seconds
 ##                                                       expr      min
-##  {     clus &lt;- kmeans(iris, centers = 3, nstart = 75000) } 3.570269
+##  {     clus &lt;- kmeans(iris, centers = 3, nstart = 75000) } 3.489261
 ##        lq     mean   median       uq      max neval
-##  3.647574 3.789979 3.771517 3.838225 4.229509    10</pre>
+##  3.502473 3.560645 3.562536 3.591032 3.647707    10</pre>
 
 </article></slide><slide class=''><hgroup><h2>Recap!</h2></hgroup><article  id="recap-2">
 

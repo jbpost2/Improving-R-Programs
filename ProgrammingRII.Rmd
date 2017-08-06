@@ -857,8 +857,8 @@ iris
 
 ```{r,eval=FALSE}
 library(fpc)       #install if needed
-iris$Species<-NULL #remove category labels (truly 3 groups)
-clus<-kmeans(iris,centers=3,nstart=100)
+iris$Species <- NULL #remove category labels (truly 3 groups)
+clus <- kmeans(iris, centers = 3, nstart = 100)
 plotcluster(iris, clus$cluster)
 ```
 
@@ -962,7 +962,7 @@ print(result)
 library(parallel)
 cores <- detectCores()
 cluster <- makeCluster(cores - 1)
-results <- parLapply(cluster, X = c(2500, 2500, 2500),
+results <- parLapply(cluster, X = c(250, 250, 250),
                      fun = parallel.function, data = iris)
 temp.vector <- sapply(results, function(result) {result$tot.withinss})
 result <- results[[which.min(temp.vector)]]
@@ -976,7 +976,7 @@ print(result)
 library(parallel)
 cores <- detectCores()
 cluster <- makeCluster(cores-1)
-results <- parLapply(cluster,X=c(2500, 2500, 2500),
+results <- parLapply(cluster,X=c(250, 250, 250),
                     fun=parallel.function,data=iris)
 temp.vector <- sapply( results, function(result) {
   result$tot.withinss } )
