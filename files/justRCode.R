@@ -361,8 +361,8 @@ iris<-tbl_df(iris)
 iris
 
 library(fpc)       #install if needed
-iris$Species<-NULL #remove category labels (truely 3 groups)
-clus<-kmeans(iris,centers=3,nstart=100)
+iris$Species <- NULL #remove category labels (truely 3 groups)
+clus<-kmeans(iris, centers = 3, nstart = 100)
 plotcluster(iris, clus$cluster)
 
 
@@ -392,14 +392,14 @@ parTime <- microbenchmark({
   library(parallel)
   cores <- detectCores()
   cluster <- makeCluster(cores - 1)
-  results <- parLapply(cluster, X = c(2500, 2500, 2500),
+  results <- parLapply(cluster, X = c(25000, 25000, 25000),
   fun = parallel.function, data = iris)
   temp.vector <- sapply(results, function(result) {result$tot.withinss})
   result <- results[[which.min(temp.vector)]]
 }, times = 10, unit = "s")
 
 straightTime <- microbenchmark({
-  clus <- kmeans(iris, centers = 3, nstart = 45000)
+  clus <- kmeans(iris, centers = 3, nstart = 75000)
 }, times = 10, unit = "s")
 
 parTime
