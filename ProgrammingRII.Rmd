@@ -952,6 +952,7 @@ print(result)
 ## Parallel Computing
 
 - Set-up is a lot of work!
+
 - For a large problem this could save a lot of time.
 - Now parallelize it
     + Set up cores
@@ -991,14 +992,14 @@ parTime <- microbenchmark({
   library(parallel)
   cores <- detectCores()
   cluster <- makeCluster(cores - 1)
-  results <- parLapply(cluster, X = c(2500, 2500, 2500),
+  results <- parLapply(cluster, X = c(25000, 25000, 25000),
                     fun = parallel.function, data = iris)
   temp.vector <- sapply(results, function(result) {result$tot.withinss})
   result <- results[[which.min(temp.vector)]]
 }, times = 10, unit = "s")
 
 straightTime <- microbenchmark({
-  clus <- kmeans(iris, centers = 3, nstart = 45000)
+  clus <- kmeans(iris, centers = 3, nstart = 75000)
 }, times = 10, unit = "s")
 ```
 
