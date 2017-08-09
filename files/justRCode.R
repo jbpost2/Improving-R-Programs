@@ -110,11 +110,11 @@ spread(newTempsData, key = day, value = temp)
 ##For Loops
 
 for (i in 1:10){
-print(i)
+  print(i)
 }
 
 for (value in c("cat","hat","worm")){
-print(value)
+  print(value)
 }
 
 set.seed(10)
@@ -151,12 +151,13 @@ colMeans(select(Batting, G:GIDP), na.rm = TRUE)
 install.packages("microbenchmarK")
 library(microbenchmark)
 
+Bat <- select(Batting, G:GIDP)
 microbenchmark(
-  colMeans(select(Batting, G:GIDP), na.rm = TRUE)
+  colMeans(Bat, na.rm = TRUE)
 )
 microbenchmark(
   for(i in 1:17){
-    mean(Batting[ , i + 5][[1]], na.rm = TRUE)
+    mean(Bat[ , i], na.rm = TRUE)
   }
 )
 
