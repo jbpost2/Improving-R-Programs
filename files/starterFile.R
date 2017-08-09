@@ -36,7 +36,13 @@ df <- data.frame(gamma = rgamma(n = 20, shape = 4, scale = 2), uniform = runif(n
 
 #1. Create a for loop that will cycle through the columns and save the standard deviation of each column in a vector called 'sds'.
 
-#2. Create a for loop that will cycle through the columns and use if-then logic to transform and overwrite the data. For the gamma column do a ln (log in R) transform of the data. For the uniform column do a -ln transform of the data. For the normal column do a standardization by subtracting off the mean of the normal column and dividing by its standard deviation.
+#2. Run the following code to create a 4x3 matrix of random integers from 5 to 50. 
+set.seed(100)
+Obs <- matrix(sample(5:50, 12, replace = TRUE), nrow = 4, ncol = 3)
+Exp <- matrix( , nrow = dim(Obs)[1], ncol = dim(Obs)[2])
+#Now that the matrix Exp has been initialized with the same dimenstions as the Obs matrix, use loops to update the values as follows:
+#Each cell should contain the row total * column total / overall total. For example, the first cell should contain 75*72/309 = 17.47573 (Hint: You'll need to nest one for loop inside another one!
+
 
 
 ###########################################################
