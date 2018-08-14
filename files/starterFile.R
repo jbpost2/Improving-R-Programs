@@ -2,7 +2,7 @@
 ##Code corresponding to activities in course:
 ##Programming in R
 ##_Your_Name_Here_
-##August 9, 2017
+##2018
 ###########################################################
 
 ###########################################################
