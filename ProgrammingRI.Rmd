@@ -1,10 +1,11 @@
 ---
 title: "Programming in R Part I"
 author: "Justin Post"
-date: "August 9, 2017"
+date: "August 15, 2018"
 output: 
       ioslides_presentation:
          css: css/style.css
+         widescreen: true
 transition: faster
 logo: img/logo.png
 ---
@@ -16,15 +17,15 @@ library(knitr)
 
 ## Course Schedule  
 
-**Day's agenda:**   
+**Daily agenda:**   
 
-- 10-11:10 Session  
+- 9:30-10:40 Session  
 - 10-minute break  
-- 11:20-12:30 Session  
-- 12:30-1:45 Lunch  
-- 1:45-2:55 Session  
+- 10:50-12:00 Session  
+- 12:00-1:15 Lunch  
+- 1:15-2:25 Session  
 - 10-minute break  
-- 3:05-4:15 Session  
+- 2:35-3:45 Session  
 
 
 ## What do we want to be able to do?
@@ -46,8 +47,6 @@ library(knitr)
 - If/Then logic  
 - Vectorized Functions  
 - Function Writing  
-- Parallel Computing  
-
 
 
 ## Review of Concepts
@@ -57,20 +56,20 @@ library(knitr)
 
 - Four main 'areas' we'll use  
     + Scripting and Viewing Area  
-    + Workspace/History  
-    + Plots/Help  
+    + Environment/History  
+    + Plots/Packages/Help  
     + Console
     
 
 ## Review of Concepts
 **R Studio** - Can rearrange panes
 
-```{r, out.width = "800px",echo=FALSE}
+```{r, out.width = "700px",echo=FALSE}
 knitr::include_graphics("img/panes.png")
 ```
 
-- Global options --> Appearance allows font/background changes
-
+- Global options --> Appearance allows font/background changes  
+- Global options --> Code allows for soft-wrap of script files
 
 ## Review of Concepts  
 **Data Frames**
@@ -187,10 +186,14 @@ install.packages("tidyverse")
 library(tidyverse)
 ```    
 
+- `dplry` package made for most standard data manipulation tasks   
+
+- `tidyr` handles most of the rest  
+
 
 ## Tidyverse Syntax
 
-- Reason to prefer `dplyr` and packages from the `tidyverse` 
+- Reason you might choose `dplyr` and packages from the `tidyverse` 
 
 > - Fast!
 
@@ -200,6 +203,19 @@ library(tidyverse)
 
 > - Syntax: function(data.frame, actions, ...)
 
+ 
+## `dplyr` package
+
+- Basic commands 
+    + `tbl_df()` - convert data frame to one with better printing
+    + `filter()` - subset **rows**
+    + `arrange()` - reorder **rows**
+    + `select()` - subset **columns**
+    + `mutate()` - add newly created **column**
+    + `transmute()` - create new variable
+    + `group_by()` - group **rows** by a variable  
+    + `summarise()` - apply basic function to data
+    + `left_join()`, `right_join()`, `inner_join()`, `full_join()` - commands to combine multiple data frames
 
 
 ## Subsetting/Manipulating Data
@@ -209,34 +225,34 @@ library(tidyverse)
 - Just 'wrap' data frame
 
 ```{r,eval=FALSE}
-#install.packages("Lahman")
-library(Lahman)
-head(Batting, n = 4) #look at just first 4 observations
+#install.packages("fivethirtyeight")
+library(fivethirtyeight)
+head(fandango, n = 4) #look at just first 4 observations
 ```
 
 ## Subsetting/Manipulating Data
 `tbl_df()` - convert data frame to one with better printing
 
 ```{r,eval=TRUE,echo=FALSE}
-library(Lahman)
+library(fivethirtyeight)
 ```
 ```{r}
-head(Batting, n = 4) #look at just first 4 observations
+head(fandango, n = 4) #look at just first 4 observations
 ```
 
 ## Subsetting/Manipulating Data
 
 ```{r}
-Batting <- tbl_df(Batting)
-Batting
+fandango <- tbl_df(fandango)
+fandango
 ```
 
 ## Subsetting/Manipulating Data
 `filter()` - subset **rows**
 
-- Use `filter()` to obtain only PIT data
+- Use `filter()` to obtain only 2014 movies
 ```{r}
-filter(Batting, teamID == "PIT")
+filter(fandango, year == 2014)
 ```
 
 ## Subsetting/Manipulating Data
@@ -244,15 +260,15 @@ filter(Batting, teamID == "PIT")
 
 - Multiple filters
 ```{r}
-filter(Batting, teamID == "PIT" & yearID == 2000)
+filter(fandango, (year == 2014) & (rottentomatoes <= 60))
 ```
 
 ## Subsetting/Manipulating Data
 `arrange()` - reorder **rows**
 
 ```{r}
-#reorder by teamID
-arrange(Batting, teamID)
+#reorder by film title
+arrange(fandango, film)
 ```
 
 ## Subsetting/Manipulating Data
@@ -260,7 +276,7 @@ arrange(Batting, teamID)
 
 ```{r}
 #get secondary arrangement as well
-arrange(Batting, teamID, G)
+arrange(fandango, year, film)
 ```
 
 ## Subsetting/Manipulating Data
@@ -268,7 +284,7 @@ arrange(Batting, teamID, G)
 
 ```{r}
 #descending instead
-arrange(Batting, teamID, desc(G))
+arrange(fandango, year, desc(film))
 ```
 
 
@@ -279,7 +295,7 @@ arrange(Batting, teamID, desc(G))
 - Piping or Chaining with `%>%` operator helps
 
 ```{r}
-arrange(filter(Batting, teamID == "PIT"), desc(G))
+arrange(filter(fandango, year == 2014), desc(film))
 ```
 
 ## Subsetting/Manipulating Data
@@ -289,7 +305,7 @@ arrange(filter(Batting, teamID == "PIT"), desc(G))
 - Piping or Chaining with `%>%` operator helps
 
 ```{r}
-Batting %>% filter(teamID == "PIT") %>% arrange(desc(G))
+fandango %>% filter(year == 2014) %>% arrange(desc(film))
 ```
 
 ## Subsetting/Manipulating Data
@@ -297,19 +313,12 @@ Batting %>% filter(teamID == "PIT") %>% arrange(desc(G))
 
 - Applying multiple functions: nesting hard to parse!
 - Piping or Chaining with %>% operator helps
-- If `dplyr` or `magrittr` package loaded, can use anywhere
-```{r}
-a<-runif(n = 10)
-a
-```
-
-## Subsetting/Manipulating Data
-**Piping or Chaining**
+- If `dplyr` or `magrittr` package loaded, can often use
 
 ```{r}
 #silly example
-a %>% quantile()
-a %>% quantile() %>% range()
+fandango$imdb %>% quantile()
+fandango$imdb %>% quantile() %>% range()
 ```
 
 
@@ -320,8 +329,8 @@ a %>% quantile() %>% range()
 - `select()` function has same syntax as other `dplyr` functions!
 
 ```{r}
-#Choose a single column by name
-Batting %>% select(X2B)
+#Choose a column by name
+fandango %>% select(film, fandango_stars)
 ```
 
 ## Subsetting/Manipulating Data
@@ -331,7 +340,7 @@ Batting %>% select(X2B)
 
 ```{r}
 #all columns between
-Batting %>% select(X2B:HR)
+fandango %>% select(film, year:rottentomatoes_user)
 ```
 
 ## Subsetting/Manipulating Data
@@ -341,7 +350,7 @@ Batting %>% select(X2B:HR)
 
 ```{r}
 #all columns containing
-Batting %>% select(contains("X"))
+fandango %>% select(film, contains("fandango"))
 ```
 
 
@@ -352,7 +361,7 @@ Batting %>% select(contains("X"))
 
 ```{r}
 #all columns starting with
-Batting %>% select(starts_with("X"))
+fandango %>% select(film, starts_with("imdb"))
 ```
 
 
@@ -363,7 +372,7 @@ Batting %>% select(starts_with("X"))
 
 ```{r}
 #all columns ending with
-Batting %>% select(ends_with("ID"))
+fandango %>% select(film, ends_with("user"))
 ```
 
 ## Subsetting/Manipulating Data
@@ -372,8 +381,8 @@ Batting %>% select(ends_with("ID"))
 `transmute()` - create new variable
 
 ```{r}
-##Create an Extra Base Hits variable
-Batting %>% mutate(ExtraBaseHits = X2B + X3B + HR)
+##Create an average rottentomatoes score variable
+fandango %>% mutate(avgRotten = (rottentomatoes + rottentomatoes_user)/2)
 ```
 
 ## Subsetting/Manipulating Data
@@ -383,7 +392,7 @@ Batting %>% mutate(ExtraBaseHits = X2B + X3B + HR)
 
 ```{r}
 #can't see it!
-Batting %>% mutate(ExtraBaseHits = X2B + X3B + HR) %>% select(ExtraBaseHits)
+fandango %>% mutate(avgRotten = (rottentomatoes + rottentomatoes_user)/2) %>% select(avgRotten)
 ```
 
 
@@ -394,7 +403,7 @@ Batting %>% mutate(ExtraBaseHits = X2B + X3B + HR) %>% select(ExtraBaseHits)
 
 ```{r}
 #transmute will keep the new variable only
-Batting %>% transmute(ExtraBaseHits = X2B + X3B + HR)
+fandango %>% transmute(avgRotten = (rottentomatoes + rottentomatoes_user)/2)
 ```
 
 
@@ -403,11 +412,10 @@ Batting %>% transmute(ExtraBaseHits = X2B + X3B + HR)
 
 `summarise()` - apply basic function to data
 
-- Summarization - find avg \# of doubles (X2B) 
-- Remove `NA`'s
-- `NA` = Not Available (R's missing data indicator)
+- Summarization - find avg number of fandango stars
+
 ```{r}
-Batting %>% summarise(AvgX2B = mean(X2B, na.rm = TRUE))
+fandango %>% summarise(avgStars = mean(fandango_stars))
 ```
 
 ## Subsetting/Manipulating Data
@@ -415,13 +423,14 @@ Batting %>% summarise(AvgX2B = mean(X2B, na.rm = TRUE))
 
 `summarise()` - apply basic function to data
 
-- Summarization - find avg \# of doubles (X2B) *by team*
+- Summarization - find avg fandango stars *by year*
 ```{r}
-Batting %>% group_by(teamID) %>% summarise(AvgX2B = mean(X2B, na.rm = TRUE))
+fandango %>% group_by(year) %>% summarise(avgStars = mean(fandango_stars))
 ```
 
-## Subsetting/Manipulating Data
-`left_join()`, `right_join()`, `inner_join()`, `full_join()` - combine multiple DFs
+## Subsetting/Manipulating Data  
+
+- May want to combine two data sets: `left_join()`, `right_join()`, `inner_join()`, `full_join()`   
 
 (Cite: http://rpubs.com/justmarkham/dplyr-tutorial-part-2)
 
@@ -447,57 +456,147 @@ b
 
 - Only include observations found in both "a" and "b" (automatically joins on variables that appear in both tables)
 
+<div style="float: left; width: 28%;">
+```{r}
+a
+```
+</div>
+<div style="float: left; width: 28%;">
+```{r}
+b
+```
+</div>
+<div style="float: right; width: 32%;">
 ```{r}
 inner_join(a, b)
 ```
+</div>
+
 
 ## Subsetting/Manipulating Data
 `left_join()`, `right_join()`, `inner_join()`, `full_join()` - combine multiple DFs
 
-- include observations found in either "a" or "b"
+- include observations found in either "a" or "b"  
+
+<div style="float: left; width: 28%;">
+```{r}
+a
+```
+</div>
+<div style="float: left; width: 28%;">
+```{r}
+b
+```
+</div>
+<div style="float: right; width: 32%;">
 ```{r}
 full_join(a, b)
 ```
+</div>
+
 
 ## Subsetting/Manipulating Data
 `left_join()`, `right_join()`, `inner_join()`, `full_join()` - combine multiple DFs
 
-- include all observations found in "a"
+- include all observations found in "a", match with b
+
+<div style="float: left; width: 28%;">
+```{r}
+a
+```
+</div>
+<div style="float: left; width: 28%;">
+```{r}
+b
+```
+</div>
+<div style="float: right; width: 32%;">
 ```{r}
 left_join(a, b)
 ```
+</div>
+
 
 ## Subsetting/Manipulating Data
 `left_join()`, `right_join()`, `inner_join()`, `full_join()` - combine multiple DFs
 
-- include all observations found in "b"
+- include all observations found in "b", match with a
+
+<div style="float: left; width: 28%;">
+```{r}
+a
+```
+</div>
+<div style="float: left; width: 28%;">
+```{r}
+b
+```
+</div>
+<div style="float: right; width: 32%;">
 ```{r}
 right_join(a, b)
 ```
+</div>
 
 ## Subsetting/Manipulating Data
 `left_join()`, `right_join()`, `inner_join()`, `full_join()` - combine multiple DFs
 
 - `right_join(a, b)` is identical to `left_join(b, a)` except for column ordering
+
+<div style="float: left; width: 45%;">
+```{r}
+right_join(a,b)
+```
+</div>
+<div style="float: right; width: 45%;">
 ```{r}
 left_join(b, a)
 ```
+</div>
+
 
 ## Subsetting/Manipulating Data
 `left_join()`, `right_join()`, `inner_join()`, `full_join()` - combine multiple DFs
 
 - filter "a" to only show observations that match "b"
+
+<div style="float: left; width: 28%;">
+```{r}
+a
+```
+</div>
+<div style="float: left; width: 28%;">
+```{r}
+b
+```
+</div>
+<div style="float: right; width: 32%;">
 ```{r}
 semi_join(a, b)
 ```
+</div>
+
 
 ## Subsetting/Manipulating Data
 `left_join()`, `right_join()`, `inner_join()`, `full_join()` - combine multiple DFs
 
 - filter "a" to only show observations that don't match "b"
+
+<div style="float: left; width: 28%;">
+```{r}
+a
+```
+</div>
+<div style="float: left; width: 28%;">
+```{r}
+b
+```
+</div>
+<div style="float: right; width: 32%;">
 ```{r}
 anti_join(a, b)
 ```
+</div>
 
 ## Subsetting/Manipulating Data
 `left_join()`, `right_join()`, `inner_join()`, `full_join()` - combine multiple DFs
@@ -519,12 +618,26 @@ b
 `left_join()`, `right_join()`, `inner_join()`, `full_join()` - combine multiple DFs
 
 - specify that the join should occur by matching "color" in "a" with "col" in "b"
-```{r}
-inner_join(a, b, by = c("color" = "col"))
-```
 
-## Subsetting/Manipulating Data
-**Overview of `dplyr` package** [cheatsheet](https://www.rstudio.com/wp-content/uploads/2015/02/data-wrangling-cheatsheet.pdf)
+<div style="float: left; width: 28%;">
+```{r}
+a
+```
+</div>
+<div style="float: left; width: 28%;">
+```{r}
+b
+```
+</div>
+<div style="float: right; width: 36%;">
+```{r}
+inner_join(a, b, 
+	by = c("color" = "col"))
+```
+</div>
+
+
+## Overview of `dplyr` package [cheatsheet](https://www.rstudio.com/wp-content/uploads/2015/02/data-wrangling-cheatsheet.pdf)
 
 - Basic commands 
     + `tbl_df()` - convert data frame to one with better printing
@@ -535,9 +648,9 @@ inner_join(a, b, by = c("color" = "col"))
     + `transmute()` - create new variable
     + `group_by()` - group **rows** by a variable  
     + `summarise()` - apply basic function to data
-    + `left_join()`, `right_join()`, `inner_join()`, `full_join()` - commands to combine multiple dfs
+    + `left_join()`, `right_join()`, `inner_join()`, `full_join()` - commands to combine multiple data frames
+    
 
-   
   
 ## Manipulating Data
 **`tidyr` package**
@@ -566,7 +679,7 @@ tempsData <- read_delim(file = "https://raw.githubusercontent.com/jbpost2/Progra
                         master/datasets/cityTemps.txt", delim = " ")
 tempsData
 ```
-```{r,echo=FALSE}
+```{r,echo=FALSE, message = FALSE}
 tempsData <- read_delim(file = "https://raw.githubusercontent.com/jbpost2/Programming-in-R/master/datasets/cityTemps.txt", delim = " ")
 tempsData
 ```
@@ -575,8 +688,10 @@ tempsData
 ## Manipulating Data
 **tidyr package**
 
-- Switch to 'Long' form with `gather()` (see help)
-- Can provide columns to `gather()` in many ways!
+- Switch to 'Long' form with `gather()`  
+    + key = new name for values in columns  
+    + value = new name for data values  
+    + columns describe which columns to take  
 ```{r}
 gather(tempsData, key = day, value = temp, 2:8)
 ```
@@ -584,7 +699,7 @@ gather(tempsData, key = day, value = temp, 2:8)
 ## Manipulating Data
 **tidyr package**
 
-- Switch to 'Long' form with `gather()` (see help)
+- Switch to 'Long' form with `gather()`  
 - Can provide columns to `gather()` in many ways!
 ```{r}
 newTempsData<-gather(tempsData, key = day, value = temp, sun,
@@ -597,7 +712,10 @@ newTempsData
 ## Manipulating Data
 **tidyr package**
 
-- Switch to 'Wide' form with `spread()` (see help)  
+- Switch to 'Wide' form with `spread()`  
+    + opposite from gather  
+    + key = new column names  
+    + value = value to spread out  
 
 ```{r}
 spread(newTempsData, key = day, value = temp)
@@ -726,6 +844,8 @@ for (i in 1:5){
 - Consider smaller batting data set
 
 ```{r}
+#load Batting data set from Lahman package
+library(Lahman)
 Batting2010 <- Batting %>% filter(yearID == 2010) %>% 
   select(playerID, teamID, G, AB, R, H, X2B, X3B, HR)
 ```
@@ -746,7 +866,7 @@ summary(Batting2010[ , 3])
 ```{r}
 stats <- matrix(nrow = 6, ncol = 7)
 for (i in 1:(dim(Batting2010)[2] - 2)){
-  stats[ , i]<-summary(Batting2010[ , i + 2])
+  stats[ , i] <- summary(Batting2010[ , i + 2])
 }
 stats
 ```
