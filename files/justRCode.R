@@ -1,7 +1,7 @@
 #####################################################
 ##Just the R code in lectures from course:
 ##Programming in R
-##Justin Post 2017
+##Justin Post 2018
 #####################################################
 
 #####################################################
@@ -28,52 +28,58 @@ iris$Sepal.Length
 install.packages("tidyverse")
 library(tidyverse)
 
-#install.packages("Lahman")
-library(Lahman)
-head(Batting, n = 4) #look at just first 4 observations
-Batting <- tbl_df(Batting)
-Batting
+#install.packages("fivethirtyeight")
+library(fivethirtyeight)
+head(fandango, n = 4) #look at just first 4 observations
+fandango <- tbl_df(fandango)
+fandango
 
-filter(Batting, teamID == "PIT")
-filter(Batting, teamID == "PIT" & yearID == 2000)
+#substet observations
+filter(fandango, year == 2014)
+filter(fandango, (year == 2014) & (rottentomatoes <= 60))
 
-#reorder by teamID
-arrange(Batting, teamID)
+#reorder by film title
+arrange(fandango, film)
+
 #get secondary arrangement as well
-arrange(Batting, teamID, G)
+arrange(fandango, year, film)
+
 #descending instead
-arrange(Batting, teamID, desc(G))
+arrange(fandango, year, desc(film))
 
-arrange(filter(Batting, teamID == "PIT"), desc(G))
-Batting %>% filter(teamID == "PIT") %>% arrange(desc(G))
+#compare two types of code
+arrange(filter(fandango, year == 2014), desc(film))
 
+fandango %>% filter(year == 2014) %>% arrange(desc(film))
 
-a<-runif(n = 10)
-a
 #silly example
-a %>% quantile()
-a %>% quantile() %>% range()
+fandango$imdb %>% quantile()
+fandango$imdb %>% quantile() %>% range()
 
-#Choose a single column by name
-Batting %>% select(X2B)
+#Choose a column by name
+fandango %>% select(film, fandango_stars)
+
 #all columns between
-Batting %>% select(X2B:HR)
+fandango %>% select(film, year:rottentomatoes_user)
+
 #all columns containing
-Batting %>% select(contains("X"))
+fandango %>% select(film, contains("fandango"))
+
 #all columns starting with
-Batting %>% select(starts_with("X"))
+fandango %>% select(film, starts_with("imdb"))
 #all columns ending with
-Batting %>% select(ends_with("ID"))
+fandango %>% select(film, ends_with("user"))
 
-##Create an Extra Base Hits variable
-Batting %>% mutate(ExtraBaseHits = X2B + X3B + HR)
-#can't see it!
-Batting %>% mutate(ExtraBaseHits = X2B + X3B + HR) %>% select(ExtraBaseHits)
+##Create an average rotten tomatoes score variable
+fandango %>% mutate(avgRotten = (rottentomatoes + rottentomatoes_user)/2)
+fandango %>% mutate(avgRotten = (rottentomatoes + rottentomatoes_user)/2) %>% select(avgRotten)
+
 #transmute will keep the new variable only
-Batting %>% transmute(ExtraBaseHits = X2B + X3B + HR)
+fandango %>% transmute(avgRotten = (rottentomatoes + rottentomatoes_user)/2)
 
-Batting %>% summarise(AvgX2B = mean(X2B, na.rm = TRUE))
-Batting %>% group_by(teamID) %>% summarise(AvgX2B = mean(X2B, na.rm = TRUE))
+#summarize a variable, by a group as well
+fandango %>% summarise(avgStars = mean(fandango_stars))
+fandango %>% group_by(year) %>% summarise(avgStars = mean(fandango_stars))
 
 # create two simple data frames
 a <- data_frame(color = c("green", "yellow", "red"), num = 1:3)
@@ -129,6 +135,8 @@ for (i in 1:5){
 data[i], "."))
 }
 
+#install.packages("Lahman")
+library(Lahman)
 Batting2010 <- Batting %>% filter(yearID == 2010) %>% 
 select(playerID, teamID, G, AB, R, H, X2B, X3B, HR)
 summary(Batting2010[ , 3])
