@@ -87,7 +87,7 @@ we often use R code to bring in images and things like that).
 -   <a href = "https://raw.githubusercontent.com/jbpost2/Improving-R-Programs/master/slides/LoopsVectorized.R" target = "download">
     Streamlining R Code</a>
 -   <a href = "https://raw.githubusercontent.com/jbpost2/Improving-R-Programs/master/slides/Functions.R" target = "download">
-    Functions</a>
+    Functions R Code</a>
 
 <hr style="    border: 0;
     height: 2px;
@@ -131,7 +131,7 @@ we often use R code to bring in images and things like that).
 ##### Functions
 
 -   <a href = "https://jbpost2.github.io/Improving-R-Programs/exercises/Exercises4_BasicFunctions.html">
-    Exercises 1 - Basic Functions</a> (Solutions:
+    Exercises 4 - Basic Functions</a> (Solutions:
     <a href = "https://jbpost2.github.io/Improving-R-Programs/exercises/Exercises4_BasicFunctions_Solutions.html">
     HTML</a>,
     <a href = "https://jbpost2.github.io/Improving-R-Programs/exercises/Exercises4_BasicFunctions_Solutions.Rmd">

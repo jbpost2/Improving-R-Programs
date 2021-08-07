@@ -79,7 +79,7 @@ We've also included links to materials to go further learning R at the bottom of
 It may help to have just the R code from the slides so you can easily run the code without typing it out. Below you'll find .R scripts with just the R code from the notes (notice that there is some extra stuff as we often use R code to bring in images and things like that).
 
 -   <a href = "https://raw.githubusercontent.com/jbpost2/Improving-R-Programs/master/slides/LoopsVectorized.R" target = "download"> Streamlining R Code</a>
--   <a href = "https://raw.githubusercontent.com/jbpost2/Improving-R-Programs/master/slides/Functions.R" target = "download"> Functions</a>
+-   <a href = "https://raw.githubusercontent.com/jbpost2/Improving-R-Programs/master/slides/Functions.R" target = "download"> Functions R Code</a>
 
 ```{=html}
 <hr style="    border: 0;
@@ -113,7 +113,7 @@ It may help to have just the R code from the slides so you can easily run the co
 
 ##### Functions
 
--   <a href = "https://jbpost2.github.io/Improving-R-Programs/exercises/Exercises4_BasicFunctions.html"> Exercises 1 - Basic Functions</a> (Solutions: <a href = "https://jbpost2.github.io/Improving-R-Programs/exercises/Exercises4_BasicFunctions_Solutions.html"> HTML</a>, <a href = "https://jbpost2.github.io/Improving-R-Programs/exercises/Exercises4_BasicFunctions_Solutions.Rmd"> Rmd</a>)
+-   <a href = "https://jbpost2.github.io/Improving-R-Programs/exercises/Exercises4_BasicFunctions.html"> Exercises 4 - Basic Functions</a> (Solutions: <a href = "https://jbpost2.github.io/Improving-R-Programs/exercises/Exercises4_BasicFunctions_Solutions.html"> HTML</a>, <a href = "https://jbpost2.github.io/Improving-R-Programs/exercises/Exercises4_BasicFunctions_Solutions.Rmd"> Rmd</a>)
 -   <a href = "https://jbpost2.github.io/Improving-R-Programs/exercises/Exercises5_MoreFunctions.html"> Exercises 5 - More Functions</a> (Solutions: <a href = "https://jbpost2.github.io/Improving-R-Programs/exercises/Exercises5_MoreFunctions_Solutions.html"> HTML</a>, <a href = "https://jbpost2.github.io/Improving-R-Programs/exercises/Exercises5_MoreFunctions_Solutions.Rmd"> Rmd</a>)
 -   <a href = "https://jbpost2.github.io/Improving-R-Programs/exercises/Exercises6_LastFunctions.html"> Exercises 6 - Last Functions</a> (Solutions: <a href = "https://jbpost2.github.io/Improving-R-Programs/exercises/Exercises6_LastFunctions_Solutions.html"> HTML</a>, <a href = "https://jbpost2.github.io/Improving-R-Programs/exercises/Exercises6_LastFunctions_Solutions.Rmd"> Rmd</a>)
 
