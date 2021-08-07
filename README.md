@@ -1,5 +1,7 @@
 # Improving R Programs
 
+<a href = "https://jbpost2.github.io/Improving-R-Programs/CourseFiles.html"><button type="button">Course Files Page</button></a>
+
 ## Summary
 
 This course introduces common programming techniques that can improve the efficiency of your R programs.  These techniques include the use of loops and vectorized functions to avoid repeated sections of code.  To really take R programs to the next level, we'll see how to write custom functions that will help to streamline code.   
