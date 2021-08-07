@@ -60,19 +60,6 @@ knitr::include_graphics("../img/vectorVisualF.png")
 
     + numeric (integer or double), character, or logical
     
-## Vector   
-
-Atomic Vector (1D group of elements with an ordering)   
-
-  - Create with `c()` function ('combine')  
-```{r vecs}
-#vectors (1 dimensional) objects
-x <- c(17, 22, 1, 3, -3)
-y <- c("cat", "dog", "bird", "frog")
-x
-y
-```    
-
 ## Accessing Parts of an Atomic Vector (1D)
 
 - Return elements using square brackets `[]`   
@@ -90,11 +77,9 @@ x <- c(1, 2, 5); letters[x]
 
 - Best R object for data sets
 - Collection (list) of vectors of the same **length**
-```{r,echo=TRUE}
-x <- c("a", "b", "c", "d", "e", "f")
-y <- c(1, 3, 4, -1, 5, 6)
-z <- 10:15
-data.frame(char = x, data1 = y, data2 = z)
+
+```{r, echo = FALSE, fig.align='center', out.width = '500px', echo = FALSE}
+knitr::include_graphics("../img/dfVisualF.png")
 ```
 
 
@@ -105,7 +90,8 @@ data.frame(char = x, data1 = y, data2 = z)
 - Can see info about object with `str()`
 
 ```{r}
-str(iris)
+myIris <- as_tibble(iris)
+str(myIris)
 ```
 
 
@@ -114,8 +100,8 @@ str(iris)
 - Returning rectangular portions of a data frame
 
 ```{r}
-iris[1:4, 2:4]
-iris[1, ]
+myIris[1:4, 2:4]
+myIris[1, ]
 ```
 
 ## Accessing Parts of Data Frame (2D) 
@@ -123,11 +109,11 @@ iris[1, ]
 - Grabbing a column (same result for both)
 
 ```{r, eval =FALSE}
-iris$Sepal.Length
+myIris$Sepal.Length
 ```
 
 ```{r}
-dplyr::pull(iris, Sepal.Length)
+dplyr::pull(myIris, Sepal.Length)
 ```
 
 
@@ -136,25 +122,13 @@ dplyr::pull(iris, Sepal.Length)
 - Grabbing multiple columns 
 
 ```{r}
-dplyr::select(iris, Sepal.Length, Sepal.Width)
+dplyr::select(myIris, starts_with("Sepal"))
 ```
 
 
 ## Packages & `tidyverse`  
 
-- Many ways to accomplish the same thing in R
-
-- How to choose?  
-   <ul>
-     <li>Want 'fast' code</li>
-     <li>Want 'easy' syntax</li>  
-     <li>Good default settings on functions</li>  
-   </ul>
-     
-> - "[TidyVerse](http://tidyverse.org/)" - collection of R packages that share common philosophies and are designed to work together!  
-
-
-## `tidyverse` 
+ - "[TidyVerse](http://tidyverse.org/)" - collection of R packages that share common philosophies and are designed to work together!  
 
 - If not installed (downloaded) on computer
 
@@ -167,11 +141,11 @@ install.packages("tidyverse")
 library(tidyverse)
 ```    
 
-- `dplry` package made for most standard data manipulation tasks   
+> - `dplry` package made for most standard data manipulation tasks   
 
-- `tidyr` handles most of the rest  
+> - `tidyr` handles most of the rest  
 
-- `%>%` operator allows coding from left to right  
+> - `%>%` operator allows coding from left to right  
 
 
 ## Pipe  
@@ -337,9 +311,21 @@ for(i in seq_along(wineData)[-ncols]){
 sumDF
 ```
 
+## `while` Loops
+
+- `while` loop similar to `for` loops
+
+```{r, eval = FALSE}
+while(condition) {
+	expression to evaluate
+  modify condition to FALSE?
+}
+```
+
 
 ## `break` Out of a Loop
 
+- `break` exits a loop
 
 ```{r}
 for (i in 1:5){
@@ -366,17 +352,9 @@ for (i in 1:5){
 ```
 
 
-## `while` Loops
+## Quick Examples  
 
-- `while` loop similar to `for` loops
-
-```{r, eval = FALSE}
-while(condition) {
-	expression to evaluate
-  modify condition to FALSE?
-}
-```
-
+- Go to the <a href = "https://jbpost2.github.io/Improving-R-Programs/CourseFiles.html">course files page</a> and try Exercise 1 - Loops
 
 
 ## Looping in R  
@@ -573,7 +551,7 @@ vectorTime <- microbenchmark(
 , unit = "us")
 ```
 
-## Efficient Code (Note units!)
+## Efficient Code
 
 ```{r}
 loopTime
@@ -606,18 +584,21 @@ wineData %>%
 ```
 
 
+## Quick Examples
+
+- Go to the <a href = "https://jbpost2.github.io/Improving-R-Programs/CourseFiles.html">course files page</a> and try Exercise 2 - if else
 
 ## Efficient Code  
 
 Some 'built-in' vectorized functions    
 
-> + `colMeans()`, `rowMeans()`
-> + `colSums()`, `rowSums()`
-> + `colSds()`, `colVars()`, `colMedians()` (`matrixStats` package)
-> + `ifelse()`, `dplyr::if_else()`
-> + `apply()` family
+ + `colMeans()`, `rowMeans()`
+ + `colSums()`, `rowSums()`
+ + `colSds()`, `colVars()`, `colMedians()` (`matrixStats` package)
+ + `ifelse()`, `dplyr::if_else()`
+ + `apply()` family
 
-> + Create your own with `Vectorize()`
+ + Create your own with `Vectorize()`
 
 
 ## `apply()` family
@@ -749,3 +730,7 @@ replicate(50000,
     + `ifelse()` 
     + `apply()` family
 
+
+## Quick Examples
+
+- Go to the <a href = "https://jbpost2.github.io/Improving-R-Programs/CourseFiles.html">course files page</a> and try Exercise 3 - apply

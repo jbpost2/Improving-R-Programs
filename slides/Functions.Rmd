@@ -250,11 +250,15 @@ result
 result$sd
 ```
 
+## Quick Examples
+
+- Go to the <a href = "https://jbpost2.github.io/Improving-R-Programs/CourseFiles.html">course files page</a> and try Exercise 4 - Basic Functions
+
 
 ## Writing Functions
 
 - Can bring in unnamed arguments  
-- Arugments that can be used by functions **inside** your function  
+- Arguments that can be used by functions **inside** your function  
 
 <div style = "float: left; width: 45%">
 ```{r}
@@ -341,33 +345,20 @@ sData$result
 
 ```{r}
 f <- function(x, ...){
-	unnamed <- list(...)
-	modifyX <- x^2  
-	return(list(newX = modifyX, dotDotDot = unnamed))
-}
-```
-
-
-## Writing Functions
-
-```{r}
-f(x = 10, a = 1, b = list(char = "hey there", num = 1:3))
-```
-
-
-## Writing Functions
-
-- Note: You can get at the unnamed arguments with `list(...)`  
-- Or just grab the names
-
-```{r}
-f <- function(x, ...){
 	unnamed <- names(list(...))
+	unnamedVals <- list(...)
 	modifyX <- x^2  
-	return(list(newX = modifyX, dotDotDot = unnamed))
+	return(list(newX = modifyX, elipNames = unnamed, elipValues = unnamedVals))
 }
-f(x = 10, a = 1, b = list(char = "hey there", num = 1:3))
 ```
+
+
+## Writing Functions
+
+```{r}
+f(x = 10, a = 1, b = "hey there", num = 1:3)
+```
+
 
 ## Recap  
 
@@ -603,6 +594,10 @@ center <- function(vec, type, ...) {
 center(c(1,1,1,6,10), "trimmed", trim = 0.2)
 ```
 
+## Quick Examples 
+
+- Go to the <a href = "https://jbpost2.github.io/Improving-R-Programs/CourseFiles.html">course files page</a> and try Exercise 5 - More Functions
+
 
 ## Writing Pipeable functions  
 
@@ -798,7 +793,7 @@ search()
 
 - Don't need to fully understand them... a few important things to know  
 
-```{r}
+```{r, message = FALSE, warning = FALSE}
 library(pryr) #install if needed
 x <- "hey"
 where("x")
@@ -825,6 +820,7 @@ mean
 
 - When you call a function, it creates temporary function environments  
 
+<div style = "float: left; width: 45%">
 ```{r}
 g <- function(x) {
   if (!exists("a", inherits = FALSE)) {
@@ -835,9 +831,16 @@ g <- function(x) {
   }
   a
 }
-g(10); g(10)
 ```
-
+</div>
+<div style = "float: right; width: 45%">
+```{r}
+#Running the function doesn't create 
+#the a object in our global environment!
+g(10)
+g(10)
+```
+</div>
 
 ## Environments and Lexical Scoping  
 
@@ -873,3 +876,4 @@ f(10)
 
 ## Quick Examples
 
+- Go to the <a href = "https://jbpost2.github.io/Improving-R-Programs/CourseFiles.html">course files page</a> and try Exercise 6 - Last Functions
