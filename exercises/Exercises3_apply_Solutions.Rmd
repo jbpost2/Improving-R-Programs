@@ -1,59 +1,55 @@
 ---
-title: "Exercises 1 - RStudio Solutions"
+title: "Exercises 3 - apply Solutions"
 output:
-  github_document:
-    df_print: paged
+  github_document
 ---
 
-## 1.1 RStudio GUI 
+#2. Report the means of each numeric column.
+colMeans(select(myCO2, conc:group), na.rm = TRUE)
 
-**Task:** Search the menus in your RStudio IDE to locate where each of the following can be accomplished: 
+#3. Report the standard deviations of each column (use the matrixStats package).
+library(matrixStats)
+colSds(as.matrix(select(myCO2, conc:group)))
+# alternatively:	apply(select(myCO2, conc:group), MARGIN = 2, FUN=sd)
 
-1. Restart your R Session
-#. Create a new "R Markdown" file 
-#. Install `lubridate` packages (with dependencies if needed)
-#. search the Help to learn about the "head" function
-#. What types of data sources can be imported using the RStudio GUI
+
+
+1) Use `apply` to obtain the 5-number summary of each column of the built-in mtcars dataset.
+
+```{r}
+apply(mtcars, MARGIN = 2, summary)
+```
+
+2) Use `apply` to compute the row sums of our matrix 'mat' and print it to the console. 
+
+```{r}
+apply(mat, 1, sum)
+```
+
+
+3) Start by fitting a linear regression on some of the mtcars variables. What type of object is this?
+
+```{r, echo=T, eval=T}
+fit <- lm(mpg ~ wt, data=mtcars)
+```
+
+> Print the class of fit to the console. Then use `lapply` to print the class of each element of fit.
+
+```{r}
+class(fit)
+lapply(fit, class)
+```
+
+> Print the length of fit to the console. Then use `sapply` to print the length of each element of fit to the console.
+
+```{r}
+length(fit)
+sapply(fit, length)
+```
+
 
 <hr>
-
-### Solution
-
-1. RStudio >> Session 
-#. RStudio >> File >> New File >> R Markdown
-#. RStudio >> Packages >> Install >> [type the package name in the search bar]
-#. RStudio >> Help >> [type "head" in search bar]
-#. RStudio >> File >> Import Dataset 
-
-<hr>
-
-
-## 1.2 Configuration for coding
-
-**Task:** Visit "RStudio >> Tools >> Global Options" and locate the following: 
-
-1. Pane Layout
-#. "Rainbow parenthesis"
-#. "Show margin" (set to 80)
-#. "Highlight selected line"
-#. "Provide R style diagnostics (e.g., whitespace)"
-#. "Show whitespace characters" 
-
-<hr>
-
-### Solution
-
-1. Tools >> Global Options >> Pane Layout (in left-side navigation)
-#. Tools >> Global Options >> Code >> Display 
-#. Tools >> Global Options >> Code >> Display
-#. Tools >> Global Options >> Code >> Display
-#. Tools >> Global Options >> Code >> Diagnostics
-#. Tools >> Global Options >> Code >> Display
-
-<hr>
-
 
 <br>
 
-<a href = "https://jbpost2.github.io/Basics-of-R-for-Data-Science-and-Statistics/CourseFiles.html"><button type="button">Course Files Page</button></a>
-
+<a href = "https://jbpost2.github.io/Improving-R-Programs/CourseFiles.html"><button type="button">Course Files Page</button></a>

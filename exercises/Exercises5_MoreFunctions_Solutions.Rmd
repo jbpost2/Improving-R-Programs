@@ -1,59 +1,43 @@
 ---
-title: "Exercises 1 - RStudio Solutions"
+title: "Exercises 5 - More Functions Solutions"
 output:
-  github_document:
-    df_print: paged
+  github_document
 ---
 
-## 1.1 RStudio GUI 
+#2. Challenge: Create your own summary function called mySummary that takes in a single vector and is capable of outputting the min, max, median, mean, sd, and var of the vector. By default have the function produce the min, median, and max only, but allow the user to determine which of the statistics is returned. Return the appropriate object with names for each item returned.
 
-**Task:** Search the menus in your RStudio IDE to locate where each of the following can be accomplished: 
+#Note: Allow for the passing of unnamed arguments.
+mySummary <- function(vector, min = TRUE, max = TRUE, med = TRUE, mean = FALSE, sd = FALSE, var = FALSE, ...) {
 
-1. Restart your R Session
-#. Create a new "R Markdown" file 
-#. Install `lubridate` packages (with dependencies if needed)
-#. search the Help to learn about the "head" function
-#. What types of data sources can be imported using the RStudio GUI
+	Results <- list()
+	
+	if (min == TRUE) {
+		Results$Minimum <- min(vector, ...)
+	}
+	if (max == TRUE) {
+		Results$Maximum <- max(vector, ...)
+	} 
+	if (med == TRUE) { 
+		Results$Median <- median(vector, ...)
+		}
+	if (mean == TRUE) {
+		Results$Mean <- mean(vector, ...)
+		}
+	if (sd == TRUE) { 
+		Results$SD <- sd(vector, ...)
+		}
+	if (var == TRUE) {
+		Results$Variance <- var(vector, ...)
+		}
+	return(Results)
+}
 
-<hr>
-
-### Solution
-
-1. RStudio >> Session 
-#. RStudio >> File >> New File >> R Markdown
-#. RStudio >> Packages >> Install >> [type the package name in the search bar]
-#. RStudio >> Help >> [type "head" in search bar]
-#. RStudio >> File >> Import Dataset 
-
-<hr>
-
-
-## 1.2 Configuration for coding
-
-**Task:** Visit "RStudio >> Tools >> Global Options" and locate the following: 
-
-1. Pane Layout
-#. "Rainbow parenthesis"
-#. "Show margin" (set to 80)
-#. "Highlight selected line"
-#. "Provide R style diagnostics (e.g., whitespace)"
-#. "Show whitespace characters" 
+#Evaluate your function on the following vector and return only the min, mean, and variance. (Recall the na.rm=TRUE argument for many of the basic summary functions.
+x <- c(runif(10), NA)
+mySummary(x, max = FALSE, med = FALSE, mean = TRUE, var = TRUE, na.rm = TRUE)
 
 <hr>
-
-### Solution
-
-1. Tools >> Global Options >> Pane Layout (in left-side navigation)
-#. Tools >> Global Options >> Code >> Display 
-#. Tools >> Global Options >> Code >> Display
-#. Tools >> Global Options >> Code >> Display
-#. Tools >> Global Options >> Code >> Diagnostics
-#. Tools >> Global Options >> Code >> Display
-
-<hr>
-
 
 <br>
 
-<a href = "https://jbpost2.github.io/Basics-of-R-for-Data-Science-and-Statistics/CourseFiles.html"><button type="button">Course Files Page</button></a>
-
+<a href = "https://jbpost2.github.io/Improving-R-Programs/CourseFiles.html"><button type="button">Course Files Page</button></a>

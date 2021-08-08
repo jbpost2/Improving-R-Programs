@@ -1,59 +1,42 @@
 ---
-title: "Exercises 1 - RStudio Solutions"
+title: "Exercises 2 - if else Solutions"
 output:
-  github_document:
-    df_print: paged
+  github_document
 ---
 
-## 1.1 RStudio GUI 
+#We'll use the built-in 'CO2' data set. Write R code to do the following:
 
-**Task:** Search the menus in your RStudio IDE to locate where each of the following can be accomplished: 
+#1. Suppose we want to create a "group" indicator variable that tells us which Type*Treatment group we are in (i.e Quebec-nonchilled, Quebec-chilled, Mississippi-nonchilled, Mississippi-chilled, group 1, 2, 3, 4, respectively). Use ifelse to create this new variable and add it to the data set.
+myCO2 <- tbl_df(CO2) %>% 
+	mutate(group = ifelse((Type == "Quebec") & (Treatment == "nonchilled"), 
+												1, ifelse((Type == "Quebec") & (Treatment == "chilled"), 2,
+																	ifelse((Type == "Mississippi") & (Treatment == "nonchilled"), 3,
+																				 ifelse((Type == "Mississippi") & (Treatment == "chilled"), 4, 0)))))
+																				 
 
-1. Restart your R Session
-#. Create a new "R Markdown" file 
-#. Install `lubridate` packages (with dependencies if needed)
-#. search the Help to learn about the "head" function
-#. What types of data sources can be imported using the RStudio GUI
+4) FizzBuzz is a common programming problem <https://en.wikipedia.org/wiki/Fizz_buzz> used to practice if statements and division. 
 
-<hr>
+> For our version, create a vector 'test_vec' of the numbers 1 to 50. Then apply the following rules using only `ifelse` statements:
 
-### Solution
+- if the number is divisible by 3 replace it with "Fizz"
+- if the number is divisible by 5, replace it with "Buzz"
+- if the number is divisible by 15, replace it with "FizzBuzz"
+- otherwise, return the number
 
-1. RStudio >> Session 
-#. RStudio >> File >> New File >> R Markdown
-#. RStudio >> Packages >> Install >> [type the package name in the search bar]
-#. RStudio >> Help >> [type "head" in search bar]
-#. RStudio >> File >> Import Dataset 
+```{r}
+test_vec <- 1:50
 
-<hr>
+ifelse(test_vec %% 15 == 0, "FizzBuzz", 
+       ifelse(test_vec %% 3 == 0, "Fizz", 
+              ifelse(test_vec %% 5 ==0, "Buzz", test_vec)
+              )
+      )
+```
 
-
-## 1.2 Configuration for coding
-
-**Task:** Visit "RStudio >> Tools >> Global Options" and locate the following: 
-
-1. Pane Layout
-#. "Rainbow parenthesis"
-#. "Show margin" (set to 80)
-#. "Highlight selected line"
-#. "Provide R style diagnostics (e.g., whitespace)"
-#. "Show whitespace characters" 
 
 <hr>
-
-### Solution
-
-1. Tools >> Global Options >> Pane Layout (in left-side navigation)
-#. Tools >> Global Options >> Code >> Display 
-#. Tools >> Global Options >> Code >> Display
-#. Tools >> Global Options >> Code >> Display
-#. Tools >> Global Options >> Code >> Diagnostics
-#. Tools >> Global Options >> Code >> Display
-
-<hr>
-
 
 <br>
 
-<a href = "https://jbpost2.github.io/Basics-of-R-for-Data-Science-and-Statistics/CourseFiles.html"><button type="button">Course Files Page</button></a>
+<a href = "https://jbpost2.github.io/Improving-R-Programs/CourseFiles.html"><button type="button">Course Files Page</button></a>
 
