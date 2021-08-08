@@ -1,20 +1,24 @@
 Exercises 1 - Loops Solutions
 ================
 
-# For Loop Creation
+-   Create a for loop iterating from 1 to 26 that prints the statement
 
-1.  Create a for loop iterating from 1 to 26 that prints the statement
-    “\* is the n-th letter of the alphabet.” in each iteration. Use the
-    built-in ‘letters’ vector to get the letters and use the
-    `scales::ordinal` function to create a vector of the numbers with
-    suffixes. Then combine all the strings together with the `paste`
-    function, and put the whole thing inside a `print` statement.
+> (letter) is the (nth) letter of the alphabet.
+
+at each iteration.
+
+-   Use the built-in `letters` vector to get the letters and
+    `scales::ordinal(1:26)` to create a vector of the numbers with
+    suffixes.  
+-   Combine all the strings together with the `paste()` function.  
+-   Place that line of code inside a `print()` function.
+
+For example,  
+`print(paste(letters[1], "is the", scales::ordinal(1), "letter of the alphabet."))`
 
 ``` r
-suffix <- scales::ordinal(1:26)
-
-for(l in 1:26){
-  print(paste(letters[l], "is the", suffix[l] ,"letter of the alphabet."))
+for(i in 1:26){
+  print(paste(letters[i], "is the", scales::ordinal(i) ,"letter of the alphabet."))
 }
 ```
 

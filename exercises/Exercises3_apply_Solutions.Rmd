@@ -4,47 +4,41 @@ output:
   github_document
 ---
 
-#2. Report the means of each numeric column.
-colMeans(select(myCO2, conc:group), na.rm = TRUE)
+We will use a dataset from the UCI Machine Learning Repository.  This data set is about wine quality (we'll consider the red wine data).  You can learn more about the data [here](https://archive.ics.uci.edu/ml/datasets/Wine+Quality).  
 
-#3. Report the standard deviations of each column (use the matrixStats package).
-library(matrixStats)
-colSds(as.matrix(select(myCO2, conc:group)))
-# alternatively:	apply(select(myCO2, conc:group), MARGIN = 2, FUN=sd)
+The data description describes the following variables:  
 
+> Input variables (based on physicochemical tests)  
+1 - fixed acidity  
+2 - volatile acidity  
+3 - citric acid  
+4 - residual sugar  
+5 - chlorides  
+6 - free sulfur dioxide  
+7 - total sulfur dioxide  
+8 - density  
+9 - pH  
+10 - sulphates  
+11 - alcohol  
 
+>Output variable (based on sensory data):  
+12 - quality (score between 0 and 10)  
 
-1) Use `apply` to obtain the 5-number summary of each column of the built-in mtcars dataset.
-
-```{r}
-apply(mtcars, MARGIN = 2, summary)
-```
-
-2) Use `apply` to compute the row sums of our matrix 'mat' and print it to the console. 
-
-```{r}
-apply(mat, 1, sum)
-```
-
-
-3) Start by fitting a linear regression on some of the mtcars variables. What type of object is this?
-
-```{r, echo=T, eval=T}
-fit <- lm(mpg ~ wt, data=mtcars)
-```
-
-> Print the class of fit to the console. Then use `lapply` to print the class of each element of fit.
+Read in the data using the code below.
 
 ```{r}
-class(fit)
-lapply(fit, class)
+wineData <- readr::read_delim("winequality-red.csv", delim = ";")
 ```
 
-> Print the length of fit to the console. Then use `sapply` to print the length of each element of fit to the console.
+1. Find the column means.
 
+2. Find the column standard deviations.  
+
+3. Use the `apply()` function along with the `summary()` function to find summaries about the columns.
+
+4. 
 ```{r}
-length(fit)
-sapply(fit, length)
+
 ```
 
 

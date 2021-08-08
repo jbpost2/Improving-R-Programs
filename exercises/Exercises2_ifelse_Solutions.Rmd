@@ -4,35 +4,29 @@ output:
   github_document
 ---
 
-#We'll use the built-in 'CO2' data set. Write R code to do the following:
 
-#1. Suppose we want to create a "group" indicator variable that tells us which Type*Treatment group we are in (i.e Quebec-nonchilled, Quebec-chilled, Mississippi-nonchilled, Mississippi-chilled, group 1, 2, 3, 4, respectively). Use ifelse to create this new variable and add it to the data set.
-myCO2 <- tbl_df(CO2) %>% 
-	mutate(group = ifelse((Type == "Quebec") & (Treatment == "nonchilled"), 
-												1, ifelse((Type == "Quebec") & (Treatment == "chilled"), 2,
-																	ifelse((Type == "Mississippi") & (Treatment == "nonchilled"), 3,
-																				 ifelse((Type == "Mississippi") & (Treatment == "chilled"), 4, 0)))))
-																				 
+FizzBuzz is a common programming problem <https://en.wikipedia.org/wiki/Fizz_buzz> used to practice if statements and division. 
 
-4) FizzBuzz is a common programming problem <https://en.wikipedia.org/wiki/Fizz_buzz> used to practice if statements and division. 
+For our version, create a vector `test_vec` of the numbers 1 to 50 (`1:50`). Then apply the following rules using `dplyr::if_else` statements to obtain the appropriate behavior:
 
-> For our version, create a vector 'test_vec' of the numbers 1 to 50. Then apply the following rules using only `ifelse` statements:
+- if the number is divisible by 3, output "Fizz"
+- if the number is divisible by 5, output "Buzz"
+- if the number is divisible by 15, output "FizzBuzz"
+- otherwise, return the number as a character (`as.character()`)
 
-- if the number is divisible by 3 replace it with "Fizz"
-- if the number is divisible by 5, replace it with "Buzz"
-- if the number is divisible by 15, replace it with "FizzBuzz"
-- otherwise, return the number
+Notes:  
+- `%%` will give the remainder or a division (for instance `15 %% 3` is `r 15 %% 3` and `16 %% 3` is `r 16 %% 3`).  You can use this function and check if the remainder is 0.  
+- You have to start with checking 15 and then you can do 5 or 3 after that.  
 
-```{r}
+```{r, message = FALSE, warning = FALSE}
 test_vec <- 1:50
-
-ifelse(test_vec %% 15 == 0, "FizzBuzz", 
-       ifelse(test_vec %% 3 == 0, "Fizz", 
-              ifelse(test_vec %% 5 ==0, "Buzz", test_vec)
+library(dplyr)
+if_else(test_vec %% 15 == 0, "FizzBuzz", 
+       if_else(test_vec %% 3 == 0, "Fizz", 
+              if_else(test_vec %% 5 ==0, "Buzz", as.character(test_vec))
               )
       )
 ```
-
 
 <hr>
 
