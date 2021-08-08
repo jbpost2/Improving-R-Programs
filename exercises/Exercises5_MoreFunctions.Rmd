@@ -1,35 +1,23 @@
 ---
-title: "Exercises 1 - RStudio"
+title: "Exercises 5 - More Functions"
 output:
-  github_document:
-    df_print: paged
+  github_document
 ---
 
-## 1.1 RStudio GUI 
+1. Create your own summary function called `mySummary` that takes in a single vector and is capable of outputting the `min`, `max`, `median`, `mean`, and `sd` of the vector. 
 
-**Task:** Search the menus in your RStudio IDE to locate where each of the following can be accomplished: 
+By default have the function produce the `min`, `median`, and `max` only.  Return the appropriate object with names for each item returned. Allow for the passing of unnamed arguments.
 
-1. Restart your R Session
-#. Create a new "R Markdown" file 
-#. Install `lubridate` packages (with dependencies if needed)
-#. search the Help to learn about the `head` function
-#. What types of data sources can be imported using the RStudio GUI
+Hint: Create an empty `list` using `myList <- list()`.  If the user specifies they want an input (or by default it is `TRUE`), add an element to that list (`myList$max <-` for instance).  
 
-<hr> 
+2. Evaluate your function on the following vector and return only the `min`, `mean`, and `sd.` (Recall the `na.rm=TRUE` argument for many of the basic summary functions.
 
-## 1.2 Configuration for coding
-
-**Task:** Visit "RStudio >> Tools >> Global Options" and locate the following: 
-
-1. Pane Layout
-#. "Rainbow parenthesis"
-#. "Show margin" (set to 80)
-#. "Highlight selected line"
-#. "Provide R style diagnostics (e.g., whitespace)"
-#. "Show whitespace characters" 
+```{r}
+x <- c(runif(10), NA)
+```
 
 <hr>
 
 <br>
 
-<a href = "https://jbpost2.github.io/Basics-of-R-for-Data-Science-and-Statistics/CourseFiles.html"><button type="button">Course Files Page</button></a>
+<a href = "https://jbpost2.github.io/Improving-R-Programs/CourseFiles.html"><button type="button">Course Files Page</button></a>

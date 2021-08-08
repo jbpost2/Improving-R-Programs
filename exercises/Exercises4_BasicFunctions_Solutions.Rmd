@@ -4,16 +4,35 @@ output:
   github_document
 ---
 
-#1. Write your own absolute value function called myAbsoluteValue. There are two options for the input
-    #If x is positive or zero, return x.
-    #If x is negative, return -x.
-#Check your function works by plugging in a few values.
+
+1. Write your own absolute value function called `myAbsoluteValue.` There are two options for what to do with the input:  
+  - If x is positive or zero, return x.
+  - If x is negative, return -x.
+
+Allow the function to take in an entire vector of values by using `if_else()` to do your comparison.  
+
+```{r}
 myAbsoluteValue <- function(vector) {
-	return(ifelse(vector >= 0, vector, -vector))
+	return(dplyr::if_else(vector >= 0, vector, -vector))
 }
-myAbsoluteValue(c(-10,-5,0,5,10))
+```
+
+2. Check your function works by plugging in the values below.
+
+```{r, eval = FALSE}
+3
+-5
+c(3, -5)
+-10:10
+```
 
 
+```{r}
+myAbsoluteValue(3)
+myAbsoluteValue(-5)
+myAbsoluteValue(c(3, -5))
+myAbsoluteValue(-10:10)
+```
 
 <hr>
 

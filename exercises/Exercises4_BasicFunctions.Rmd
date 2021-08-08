@@ -1,35 +1,27 @@
 ---
-title: "Exercises 1 - RStudio"
+title: "Exercises 4 - Basic Functions"
 output:
-  github_document:
-    df_print: paged
+  github_document
 ---
 
-## 1.1 RStudio GUI 
 
-**Task:** Search the menus in your RStudio IDE to locate where each of the following can be accomplished: 
+1. Write your own absolute value function called `myAbsoluteValue.` There are two options for what to do with the input:  
+  - If x is positive or zero, return x.
+  - If x is negative, return -x.
 
-1. Restart your R Session
-#. Create a new "R Markdown" file 
-#. Install `lubridate` packages (with dependencies if needed)
-#. search the Help to learn about the `head` function
-#. What types of data sources can be imported using the RStudio GUI
+Allow the function to take in an entire vector of values by using `if_else()` to do your comparison.  
 
-<hr> 
+2. Check your function works by plugging in the values below.
 
-## 1.2 Configuration for coding
-
-**Task:** Visit "RStudio >> Tools >> Global Options" and locate the following: 
-
-1. Pane Layout
-#. "Rainbow parenthesis"
-#. "Show margin" (set to 80)
-#. "Highlight selected line"
-#. "Provide R style diagnostics (e.g., whitespace)"
-#. "Show whitespace characters" 
+```{r, eval = FALSE}
+3
+-5
+c(3, -5)
+-10:10
+```
 
 <hr>
 
 <br>
 
-<a href = "https://jbpost2.github.io/Basics-of-R-for-Data-Science-and-Statistics/CourseFiles.html"><button type="button">Course Files Page</button></a>
+<a href = "https://jbpost2.github.io/Improving-R-Programs/CourseFiles.html"><button type="button">Course Files Page</button></a>

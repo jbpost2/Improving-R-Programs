@@ -1,35 +1,21 @@
 ---
-title: "Exercises 1 - RStudio"
+title: "Exercises 6 - Last Functions"
 output:
-  github_document:
-    df_print: paged
+  github_document
 ---
 
-## 1.1 RStudio GUI 
+1. Write your own infix function that can be used in place of the `cbind()` (or column bind) function.  Feel free to call the `cbind` function in your function :)  
+2. Check that the function works on the two data frames below (`df1` & `df2`) and then all three objects (`df1`, `df2`, `vec1`)!
 
-**Task:** Search the menus in your RStudio IDE to locate where each of the following can be accomplished: 
-
-1. Restart your R Session
-#. Create a new "R Markdown" file 
-#. Install `lubridate` packages (with dependencies if needed)
-#. search the Help to learn about the `head` function
-#. What types of data sources can be imported using the RStudio GUI
-
-<hr> 
-
-## 1.2 Configuration for coding
-
-**Task:** Visit "RStudio >> Tools >> Global Options" and locate the following: 
-
-1. Pane Layout
-#. "Rainbow parenthesis"
-#. "Show margin" (set to 80)
-#. "Highlight selected line"
-#. "Provide R style diagnostics (e.g., whitespace)"
-#. "Show whitespace characters" 
+    ```{r, echo = TRUE}
+set.seed(1)
+df1 <- data.frame(unif = runif(10), norm = rnorm(10))
+df2 <- data.frame(gamma = rgamma(10, shape = 1), beta = rbeta(10, shape1 = 5, shape2 = 1))
+vec1 <- rnorm(10, mean = 10)
+    ```
 
 <hr>
 
 <br>
 
-<a href = "https://jbpost2.github.io/Basics-of-R-for-Data-Science-and-Statistics/CourseFiles.html"><button type="button">Course Files Page</button></a>
+<a href = "https://jbpost2.github.io/Improving-R-Programs/CourseFiles.html"><button type="button">Course Files Page</button></a>

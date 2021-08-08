@@ -4,37 +4,45 @@ output:
   github_document
 ---
 
-#2. Challenge: Create your own summary function called mySummary that takes in a single vector and is capable of outputting the min, max, median, mean, sd, and var of the vector. By default have the function produce the min, median, and max only, but allow the user to determine which of the statistics is returned. Return the appropriate object with names for each item returned.
+1. Create your own summary function called `mySummary` that takes in a single vector and is capable of outputting the `min`, `max`, `median`, `mean`, and `sd` of the vector. 
 
-#Note: Allow for the passing of unnamed arguments.
-mySummary <- function(vector, min = TRUE, max = TRUE, med = TRUE, mean = FALSE, sd = FALSE, var = FALSE, ...) {
+By default have the function produce the `min`, `median`, and `max` only.  Return the appropriate object with names for each item returned. Allow for the passing of unnamed arguments.
 
-	Results <- list()
+Hint: Create an empty `list` using `myList <- list()`.  If the user specifies they want an input (or by default it is `TRUE`), add an element to that list (`myList$max <-` for instance).  
+
+```{r}
+mySummary <- function(vector, min = TRUE, max = TRUE, med = TRUE, mean = FALSE, sd = FALSE, ...) {
+
+	myList <- list()
 	
 	if (min == TRUE) {
-		Results$Minimum <- min(vector, ...)
+		myList$Minimum <- min(vector, ...)
 	}
 	if (max == TRUE) {
-		Results$Maximum <- max(vector, ...)
+		myList$Maximum <- max(vector, ...)
 	} 
 	if (med == TRUE) { 
-		Results$Median <- median(vector, ...)
+		myList$Median <- median(vector, ...)
 		}
 	if (mean == TRUE) {
-		Results$Mean <- mean(vector, ...)
+		myList$Mean <- mean(vector, ...)
 		}
 	if (sd == TRUE) { 
-		Results$SD <- sd(vector, ...)
+		myList$SD <- sd(vector, ...)
 		}
-	if (var == TRUE) {
-		Results$Variance <- var(vector, ...)
-		}
-	return(Results)
+	return(myList)
 }
+```
 
-#Evaluate your function on the following vector and return only the min, mean, and variance. (Recall the na.rm=TRUE argument for many of the basic summary functions.
+2. Evaluate your function on the following vector and return only the `min`, `mean`, and `sd.` (Recall the `na.rm=TRUE` argument for many of the basic summary functions.
+
+```{r}
 x <- c(runif(10), NA)
-mySummary(x, max = FALSE, med = FALSE, mean = TRUE, var = TRUE, na.rm = TRUE)
+```
+
+```{r}
+mySummary(x, max = FALSE, med = FALSE, mean = TRUE, sd = TRUE, na.rm = TRUE)
+```
 
 <hr>
 
